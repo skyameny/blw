@@ -1,0 +1,301 @@
+<style>
+.mx-1.disabled {
+	color: #ccc;
+}
+
+.user-profile {
+	text-align: center;
+	position: relative;
+}
+
+.user-profile .profile-img {
+	width: 350px;
+	/* height:50px; */
+	margin: 0 auto;
+	border-radius: 100%;
+}
+
+#admin_avatar {
+	max-width: 100%;
+}
+</style>
+<link rel="stylesheet" href="__TMPL__/plugins/cropper/cropper.min.css">
+<section class="content">
+	<div class="row">
+		<div class="col-12">
+			<div class="card ">
+				<div class="card-header">
+					<h3 class="card-title">配置管理</h3>
+					<div class="card-tools">
+						<div class="btn-group">
+							<button data-toggle="modal" data-atio="edit"
+								data-target="#addSetting" type="button"
+								class="btn btn-sm btn-default">
+								<i class="fa fa-plus"></i> 添加
+							</button>
+							<button type="button" class="btn btn-sm btn-default">
+								<i class="fa fa-trash"></i> 删除
+							</button>
+							<button type="button" class="btn btn-sm btn-default bl_refresh">
+								<i class="fa fa-refresh"></i> 刷新
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- /.card-header -->
+				<div class="card-body">
+					<form action="" class="form-row mx-2 mt-3" method="get">
+						<div class="col-md-6 mb-3">
+							<div class="form-group row">
+								<div class="col-sm-8">
+									<input type="text" name="search"
+										value="{$Request.param.search}" class="form-control"
+										id="inlineFormInput" placeholder="搜索" autocomplete="off">
+								</div>
+								<div class="col-sm-2">
+									<button type="submit" class="btn btn-primary">
+										<i class="fa fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					<table id="" class="table content_area table-striped" >
+						<thead>
+							<tr>
+								<th><input type="checkbox" /></th>
+								<th>配置名</th>
+								<th>配置值</th>
+								<th>描述</th>
+								<th>类型</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							{volist name="configs" id="vo"}
+							<tr>
+								<td><input type="checkbox" /></td>
+								<td>{$vo.key}</td>
+								<td>{$vo.value}</td>
+								<td>{$vo.describe}</td>
+								<td>
+								{switch name="$vo.type"}
+								    {case value="0"}
+								    <font class="mx-1 text-waring">系统内置</font>
+								    {/case}
+								    {case value="1"}自定义{/case}
+								    {default /}普通
+								{/switch}
+								</td>
+								<td>{if condition="($vo.status ==1)"} <span
+									class="badge bg-success">&nbsp;&nbsp;&nbsp;</span> {else /} <span
+									class="badge bg-danger">&nbsp;&nbsp;&nbsp;</span> {/if}
+								</td>
+								
+								<td>{if condition="($vo.type == 0)"} 
+									<font class="mx-1 disabled">编辑 </font> 
+									<font class=" mx-1 disabled">删除 </font> {else /} 
+								<a data-toggle="modal" data-atio="edit"
+								data-target="#editSetting" data-bl_key = {$vo.key} class="mx-1 " href="/admin/system/editSetting?key={$vo.key}">编辑
+								</a>  
+								<a class="mx-1 bl_ajax_del delsetting" data-bl_id={$vo.id} href="/admin/system/delSetting?key={$vo.key}">删除
+								</a> {/if}
+								</td>
+							</tr>
+							{/volist}
+						</tbody>
+					</table>
+				</div>
+				<!-- /.card-body -->
+				<div class="row mx-3 justify-content-end">
+<!-- 					<div class="col-sm-12 col-md-5">
+						<div class="dataTables_info" id="example2_info" user="status"
+							aria-live="polite">显示第 1 至 10 项结果，共 15 项</div>
+					</div> -->
+					<div class=" col-sm-12 col-md-7">
+						<nav aria-label="...">{$configs->render()}</nav>
+					</div>
+				</div>
+
+			</div>
+			<!-- /.card -->
+			<!-- /.card -->
+
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</section>
+
+<!--  模态框  -->
+<div class="modal fade bl_add_modal" id="addSetting"  tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="BlModalTitle">添加配置</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form action="/admin/System/addSetting">
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="inputAddress">配置名称</label> <input type="text"
+								name="s_key" class="form-control" id="inputUsername"
+								placeholder="字母和_" autocomplete="off">
+						</div>
+						<div class="form-group col-md-12">
+							<label for="inputAddress">配置值</label> 
+							<textarea name="s_value" class="form-control" rows="3" placeholder="填入配置值"></textarea>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="inputAddress">参数描述</label> 
+							<textarea name="s_describe" class="form-control" rows="3" placeholder="干嘛用的？"></textarea>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="inputGarden">选择范围</label> 
+						<select id="inputGarden" name="s_gid" id="gardenSelect" class="form-control">
+							<option value="0" selected>系统</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<div class="form-check">
+							<input class="form-check-input" name="s_status" checked="true" type="checkbox"
+								id="gridCheck"> <label class="form-check-label"
+								for="gridCheck"> 立即生效 </label>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" id="save_setting_data" class="btn save-data btn-primary">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 编辑 设置 -->
+<div class="modal fade bl_edit_modal" id="editSetting"  tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="BlModalTitle">编辑配置</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form action="/admin/System/editSetting">
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<label for="inputAddress">配置名称</label> <input readonly type="text"
+								name="s_key" class="form-control" id="inputUsername"
+								placeholder="字母和_" autocomplete="off" value="" >
+						</div>
+						<div class="form-group col-md-12">
+							<label for="inputAddress">配置值</label> 
+							<textarea name="s_value" class="form-control" rows="3" placeholder="填入配置值"></textarea>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="inputAddress">参数描述</label> 
+							<textarea name="s_describe" class="form-control" rows="3" placeholder="干嘛用的？"></textarea>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="inputGarden">选择范围</label> 
+						<select id="inputGarden" name="s_gid" id="gardenSelect" class="form-control">
+							<option value="0" selected>系统</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<div class="form-check">
+							<input class="form-check-input" name="s_status" checked="true" type="checkbox"
+								id="gridCheck"> <label class="form-check-label"
+								for="gridCheck"> 立即生效 </label>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" id="save_setting_data" class="btn save-data btn-primary">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+<!-- 详情 -->
+<div class="modal fade bd-example-modal-lg" id="showCommunityInfo"
+	tabindex="-1" user="dialog" aria-labelledby="showCommunityInfo"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg" user="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">查看详情</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+			<div class="modal-body" id="cinfo_area"></div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+<!-- jQuery -->
+<script src="__TMPL__/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="__TMPL__/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="__TMPL__/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="__TMPL__/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- SlimScroll -->
+<script src="__TMPL__/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+<script src="__TMPL__/plugins/form/jquery.form.min.js"></script>
+<!-- FastClick -->
+<script src="__TMPL__/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="__TMPL__/dist/js/adminlte.min.js"></script>
+
+<script src="__TMPL__/plugins/cropper/cropper.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="__TMPL__/dist/js/demo.js"></script>
+<!-- 交互 -->
+<script src="__TMPL__/dist/js/bl_common.js"></script>
+<!-- page script -->
+<script src="__TMPL__/dist/js/system/system.js"></script>
+<script>
+function refreshView()
+{
+	window.location.reload();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<style>
+.mx-1.disabled {
+	color: #ccc;
+}
+
+.user-profile {
+	text-align: center;
+	position: relative;
+}
+
+.user-profile .profile-img {
+	width: 350px;
+	/* height:50px; */
+	margin: 0 auto;
+	border-radius: 100%;
+}
+
+#admin_avatar {
+	max-width: 100%;
+}
+</style>
+<link rel="stylesheet" href="__TMPL__/plugins/cropper/cropper.min.css">
+<section class="content">
+	<div class="row">
+		<div class="col-12">
+			<div class="card ">
+				<div class="card-header">
+					<h3 class="card-title">用户管理</h3>
+					<div class="card-tools">
+						<div class="btn-group">
+							<button data-toggle="modal" data-atio="edit"
+								data-target="#userEdit" type="button"
+								class="btn btn-sm btn-default">
+								<i class="fa fa-plus"></i> 添加
+							</button>
+							<button type="button" class="btn btn-sm btn-default">
+								<i class="fa fa-trash"></i> 删除
+							</button>
+							<button type="button" class="btn btn-sm btn-default">
+								<i class="fa fa-refresh"></i> 刷新
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- /.card-header -->
+				<div class="card-body">
+					<form action="" class="form-row mx-2 mt-3" method="get">
+						<div class="col-md-6 mb-3">
+							<div class="form-group row">
+								<div class="col-sm-8">
+									<input type="text" name="search"
+										value="{$Request.param.search}" class="form-control"
+										id="inlineFormInput" placeholder="搜索">
+								</div>
+								<div class="col-sm-2">
+									<button type="submit" class="btn btn-primary">
+										<i class="fa fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					<table id="example2" class="table table-striped" id="communitylist">
+						<thead>
+							<tr>
+								<th><input type="checkbox" /></th>
+								<th>ID</th>
+								<th>用户名</th>
+								<th>用户级别</th>
+								<th>手机号</th>
+								<th>最后登录IP</th>
+								<th>最后登录时间</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							{volist name="users" id="vo"}
+							<tr>
+								<td><input type="checkbox" /></td>
+								<td>{$vo.id}</td>
+								<td><img src="__STATIC__{$vo.avatar}" width="30"
+									class="img-circle" alt="img"> {$vo.username}</td>
+								<td>
+								{php}
+								$roles = $vo->getAttr("roles");
+								if(is_null($roles)){
+									echo "游客";
+								}else{
+									foreach($roles as $role){
+										echo $role->getAttr("name"); 
+										break;
+									}
+								}
+								{/php}
+								
+								</td>
+								<td>{$vo.mobile}</td>
+								<td>{$vo.last_ip}</td>
+								<td>{$vo.last_login|date="Y-m-d",###}</td>
+								<td>{if condition="($vo.status ==1)"} <span
+									class="badge bg-success">&nbsp;&nbsp;&nbsp;</span> {else /} <span
+									class="badge bg-danger">&nbsp;&nbsp;&nbsp;</span> {/if}
+								</td>
+								<td>{if condition="($vo.id == 1)"} <font
+									class="mx-1 disabled">编辑 </font> <font class="mx-1 disabled">拉黑
+								</font> <font class="mx-1 disabled">删除 </font> {else /} <a
+									class="mx-1 edituser" href="/admin/rbac/edit?rid={$vo.id}">编辑
+								</a> <a class="mx-1 authuser" href="#" class="infolink"
+									data-link='/admin/rbac/authorize?rid={$vo.id}'
+									data-toggle="modal" data-target="#showCommunityInfo">拉黑 </a> <a
+									class="mx-1 deluser" href="/admin/rbac/deleteUser?uid={$vo.id}">删除
+								</a> {/if}
+								</td>
+							</tr>
+							{/volist}
+						</tbody>
+					</table>
+				</div>
+				<!-- /.card-body -->
+				<div class="row mx-3">
+					<div class="col-sm-12 col-md-5">
+						<div class="dataTables_info" id="example2_info" user="status"
+							aria-live="polite">显示第 1 至 10 项结果，共 15 项</div>
+					</div>
+					<div class="col-sm-12 col-md-7">
+						<nav aria-label="...">{$users->render()}</nav>
+					</div>
+				</div>
+
+			</div>
+			<!-- /.card -->
+			<!-- /.card -->
+
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</section>
+
+<!--  模态框  -->
+<div class="modal fade" id="userEdit" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="userModalTitle">添加用户</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form>
+				<input type="hidden" name="user_avatar" value="dist/img/AdminLTELogo.png">
+					<div class="row">
+						<div class="col-md-9">
+							<!-- <h3>Demo:</h3> -->
+							<div class="img-container">
+								<img id="admin_avatar" src="__TMPL__dist/img/AdminLTELogo.png"
+									alt="Picture">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<!-- <h3>Preview:</h3> -->
+							<div class="docs-preview clearfix">
+								<div class="img-preview preview-lg"></div>
+							</div>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="inputAddress">用户名</label> <input type="text"
+								name="username" class="form-control" id="inputUsername"
+								placeholder="字母/数字和_">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="inputAddress">昵称</label> <input type="text"
+								name="nickname" class="form-control" id="inputNickname"
+								placeholder="用于显示">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputState">选择角色</label> 
+						<select id="inputState" name="user_role" id="gardenSelect" class="form-control">
+							<option value="0">游客</option>
+						{volist name="roles" id="vo"}
+							<option value="{$vo.id}">{$vo.name}({$vo.remark})</option>
+						{/volist}
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="inputGarden">选择社区</label> 
+						<select id="inputGarden" name="user_garden" id="gardenSelect" class="form-control">
+							<option value="1" >碧桂园</option>
+							<option value="2" >万科</option>
+							<option value="0" selected>系统</option>
+						</select>
+					</div>
+
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="inputAddress">密码</label> <input type="password"
+								name="passwd" class="form-control" id="inputPasswd"
+								placeholder="6-20位">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="inputrep">确认密码</label> <input type="password"
+								name="repasswd" class="form-control" id="inputrep"
+								placeholder="">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputAddress2">手机号</label> <input type="text"
+							name="mobile" class="form-control" id="inputAddress2"
+							placeholder="手机号">
+					</div>
+
+					<div class="form-group">
+						<div class="form-check">
+							<input class="form-check-input" checked="true" type="checkbox"
+								id="gridCheck"> <label class="form-check-label"
+								for="gridCheck"> 立即使用 </label>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+				<button type="button" id="saveuser" class="btn btn-primary">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 详情 -->
+<div class="modal fade bd-example-modal-lg" id="showCommunityInfo"
+	tabindex="-1" user="dialog" aria-labelledby="showCommunityInfo"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg" user="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">查看详情</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+			<div class="modal-body" id="cinfo_area"></div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+<!-- jQuery -->
+<script src="__TMPL__/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="__TMPL__/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="__TMPL__/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="__TMPL__/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- SlimScroll -->
+<script src="__TMPL__/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="__TMPL__/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="__TMPL__/dist/js/adminlte.min.js"></script>
+
+<script src="__TMPL__/plugins/cropper/cropper.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="__TMPL__/dist/js/demo.js"></script>
+<!-- page script -->
+<script src="__TMPL__/dist/js/rbac/user.js"></script>
+<script>
+function refreshView()
+{
+	window.location.reload();
+}
+</script>
+</body>
+</html>

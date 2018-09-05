@@ -1,0 +1,134 @@
+
+
+<!--    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>系统功能</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Compose</li>
+            </ol>
+          </div>
+        </div>
+      </div>/.container-fluid
+    </section> -->   
+<section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+            <a href="#" class="btn btn-primary btn-block mb-3">系统功能</a>
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">系统信息</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <ul class="nav nav-pills flex-column">
+                  <li class="nav-item">
+                    <a href="/admin/system/feedback" class="nav-link app-link app-feedback">
+                      <i class="fa fa-comment"></i> 用户反馈
+                      <span class="badge bg-primary float-right">12</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="/admin/system/comment" class="nav-link app-link">
+                      <i class="fa fa-share"></i> 有人@我
+                      <span class="badge bg-primary float-right">12</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link app-link">
+                      <i class="fa fa-file-text-o"></i> 工单管理
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="fa fa-question-circle "></i> FAQ
+                      <span class="badge bg-warning float-right">65</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="fa fa-server"></i> 服务器管理
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /. box -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">系统工具</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <ul class="nav nav-pills flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link app-link app-backup" href="/admin/system/Backup"><i class="fa fa-database text-danger"></i> 数据备份</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link app-link app-sysupdate" href="/admin/system/sysUpdate"><i class="fa fa-cloud-upload text-warning"></i> 版本升级</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link app-link app-monitor" href="/admin/system/Monitor"><i class="fa fa-cloud text-primary"></i> 系统监控</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-9" id="app-content">
+          
+          <!-- content -->
+          
+        
+          <!-- /. box -->
+          
+          <!-- content end -->
+          
+        </div>
+            
+            <!-- /. box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    <!-- /.container-fluid -->
+    </section>
+    
+    
+    <script src="__TMPL__/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="__TMPL__/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Slimscroll -->
+<script src="__TMPL__/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="__TMPL__/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="__TMPL__/dist/js/adminlte.min.js"></script>
+<!-- iCheck -->
+<script src="__TMPL__/plugins/iCheck/icheck.min.js"></script>
+<!-- Page Script -->
+<!-- AdminLTE for demo purposes -->
+<script src="__TMPL__/dist/js/bl_common.js"></script>
+<script src="__TMPL__/dist/js/system/manage.js"></script>
+<script src="__TMPL__/dist/js/demo.js"></script>
+<script>
+$(".app-feedback").trigger("click");
+</script>

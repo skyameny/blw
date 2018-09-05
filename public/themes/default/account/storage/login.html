@@ -1,0 +1,142 @@
+{__NOLAYOUT__}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>欢迎回家</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="__TMPL__/dist/css/adminlte.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="__TMPL__plugins/iCheck/square/blue.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="#" class="text-white"><b>BL管理系统</b><span class="right text-sm mt-3 badge badge-danger mr-3 float-right">v1.0</span></a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card card-primary card-outline">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">千里之行 始于足下</p>
+
+      <form id="login_form" action="/account/storage/login" method="post">
+      
+        <div class="form-group has-feedback">
+        <label for="basic-url">用户名</label>
+          <input type="text" class="form-control" autocomplete="off" name="username" placeholder="手机号\用户名">
+        </div>
+        <div class="form-group has-feedback">
+        <label for="basic-url">密码</label>
+          <input type="password" name="passwd" autocomplete="off" class="form-control" placeholder="密码">
+        </div>
+		<div class="form-group has-feedback">
+			<label for="basic-url">验证码</label>
+			<div class="row">
+				<div class="col-lg-6">
+					<input type="text" autocomplete="off" name="captcha" class="form-control">
+				</div>
+			
+			<div class="col-lg-6">
+				<span class="">
+					<div>
+					<img src="{:captcha_src()}" alt="captcha" onclick="this.src='/captcha/new.html?height=38&width=150&font_size=20&time='+Math.random();" style="cursor: pointer;" />
+					</div>
+				</span>
+			</div>
+		</div>
+		</div>
+
+			<div class="row">
+          <div class="col-8">
+            <div class="checkbox icheck">
+              <label>
+                <input type="checkbox"> 记住状态
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" id="login_submit" class="btn btn-primary btn-block btn-flat">登&nbsp;&nbsp;录</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <div class="social-auth-links text-center mb-3">
+        <hr/>
+      </div>
+      <!-- /.social-auth-links -->
+
+      <p class="mb-1">
+        <a href="#">忘记密码?</a>
+      </p>
+      <p class="mb-0">
+        <a href="/account/storage/register" class="text-center">想要注册账号</a>
+      </p>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="__TMPL__plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="__TMPL__plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- iCheck -->
+<script src="__TMPL__plugins/iCheck/icheck.min.js"></script>
+<script src="__TMPL__plugins/backstrech/jquery.backstrech.min.js"></script>
+<script>
+  $(function () {
+    $.backstretch("__TMPL__dist/img/bg_login.jpg");
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass   : 'iradio_square-blue',
+      increaseArea : '20%' // optional
+    })
+    //登录
+    $("#login_submit").on("click",function (event){
+    	event.preventDefault();
+    	var form = $("#login_form");
+    	var data = {};
+    	data.username = $("input[name='username']").val();
+    	data.passwd = $("input[name='passwd']").val();
+    	data.captcha = $("input[name='captcha']").val();
+    	//ajax
+    	$.ajax({ url: form.attr("action"), 
+    		context: document.body,
+    		type:"post",
+    		data:data,
+    		success: function(result){
+    			if(result.status == 0){
+    				if(result.data.go){
+    					result.data.go = "index";
+    				}
+    				window.location.href=result.data.go;
+    			}
+    			else{
+    				showError(result.info);
+    			}
+          }});
+    });
+    
+    function showError(info)
+    {
+    	alert(info)
+    }
+  });
+  
+  
+</script>
+</body>
+</html>

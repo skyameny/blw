@@ -1,0 +1,263 @@
+<section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card ">
+            <div class="card-header">
+              <h3 class="card-title">全部社区</h3>
+              <div class="card-tools">
+                 <div class="btn-group">
+                        <button data-toggle="modal" data-target="#exampleModalCenter" type="button" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> 添加</button>
+                        <button type="button" class="btn btn-sm btn-default"><i class="fa fa-trash"></i> 删除</button>
+                        <button type="button" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i> 刷新</button>
+                      </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+					<form class="form-row mx-2 mt-3">
+						<div class="col-md-3 mb-3">
+							<div class="form-group row">
+								<label for="staticEmail" class="col-sm-3 col-form-label">地区</label>
+								<div class="col-sm-8">
+									<select class="form-control" required>
+										<!--  -->
+										<option value="">选择省份</option>
+										<option value="1">江苏</option>
+										<option value="2">浙江</option>
+										<option value="3">安徽</option>
+										<option value="0">...</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 mb-3">
+							<div class="form-group row">
+								<label for="staticEmail" class="col-sm-3 col-form-label">面积</label>
+								<div class="col-sm-8">
+									<select class="form-control" required>
+										<!--  -->
+										<option value="">选择区分段</option>
+										<option value="1">1万㎡以下</option>
+										<option value="2">1万㎡-5万㎡</option>
+										<option value="3">5万㎡-10万㎡</option>
+										<option value="3">10万㎡-50万㎡</option>
+										<option value="3">50万㎡-100万㎡</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 mb-3">
+							<div class="form-group row">
+								<div class="col-sm-8">
+								      <input type="text" class="form-control" id="inlineFormInput" placeholder="碧桂园">
+								</div>
+								<div class="col-sm-2">
+							      <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+							    </div>
+							</div>
+						</div>
+
+					</form>
+					<table id="example2" class="table table-striped" id="communitylist">
+                <thead>
+                <tr>
+                  <th><input type="checkbox"/></th>
+                  <th>名称</th>
+                  <th>面积</th>
+                  <th>建成时间</th>
+                  <th>户数</th>
+                  <th>地址</th>
+                  <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="gardens" id="vo"}
+          		<tr>
+                  <td><input type="checkbox"/></td>
+                  <td>
+                  <div class="text-left" style="display:inline-block">
+                  <img class="img-fluid img-circle" style="width:32px" src="__TMPL__/{$vo.logo}" alt="{$vo.name}">
+                  </div> {$vo.name}</td>
+                  <td>{$vo.area}㎡
+                  </td>
+                  <td>{$vo.buildtime}</td>
+                  <td> {$vo.usercount}</td>
+                  <td><i class="fa fa-map-marker text-danger" aria-hidden="true"></i> {$vo.address}</td> 
+                  <td>
+                  <a class="mx-1" href="/admin/community/edit?cid={$vo.id}"><i class="fa fa-edit"></i> </a> 
+                  <a class="mx-1" href="#" class="infolink" data-link='/admin/community/showInfo?cid={$vo.id}' data-toggle="modal" data-target="#showCommunityInfo"><i class="fa fa-info-circle" aria-hidden="true"></i> </a>
+                  <a class="mx-1" href="/admin/community/edit?cid={$vo.id}"><i class="fa fa-user-secret" aria-hidden="true"></i> </a>
+                  </td>
+                </tr>
+				{/volist}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+				<div class="row mx-3">
+					<div class="col-sm-12 col-md-5">
+						
+					<div class="col-sm-12 col-md-7">
+						<nav aria-label="...">
+						{$gardens->render()}
+						</nav>
+					</div>
+				</div>
+
+			</div>
+          <!-- /.card -->
+          <!-- /.card -->
+          
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!--  模态框  -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">添加社区</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+        <div class="text-center">
+          <img class=" img-fluid img-circle" src="__TMPL__dist/img/AdminLTELogo.png" alt="User profile picture">
+        </div>
+          <div class="form-group">
+    <label for="inputAddress">名称</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="egg:南京碧桂园">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">面积</label>
+      <div class="input-group">
+         <input type="text" class="form-control timepicker">
+
+         <div class="input-group-append">
+           <span class="input-group-text">㎡</span>
+         </div>
+       </div>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">开发商</label>
+      <select id="inputState" class="form-control">
+      	<option selected>选择开发商</option>
+        <option >万科</option>
+        <option >金利房地产开发公司</option>
+        <option >保利地产开发公司</option>
+        <option >绿地地产开发公司</option>
+        <option >碧桂园开发公司</option>
+        <option>其他</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">地址</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="egg:江苏省 南京">
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">标语</label>
+    <input type="text" class="form-control" id="inputAddress2" placeholder="egg:优雅 舒适 和谐">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">建立时间</label>
+      <input type="text" class="form-control" id="inputCity" placeholder="2016">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputState">状态</label>
+      <select id="inputState" class="form-control">
+        <option selected>销售中...</option>
+        <option selected>销售完结</option>
+        <option>...</option>
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputZip">数量</label>
+      <input type="text" class="form-control" id="inputNum">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" checked="true" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        允许注册
+      </label>
+    </div>
+  </div>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 详情 -->
+<div class="modal fade bd-example-modal-lg" id="showCommunityInfo" tabindex="-1" role="dialog" aria-labelledby="showCommunityInfo" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">查看详情</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body" id="cinfo_area">
+      
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    
+    
+    
+
+<!-- jQuery -->
+<script src="__TMPL__/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="__TMPL__/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="__TMPL__/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="__TMPL__/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- SlimScroll -->
+<script src="__TMPL__/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="__TMPL__/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="__TMPL__/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="__TMPL__/dist/js/demo.js"></script>
+<!-- page script -->
+<script>
+
+	$(document).ready(function() {
+		$(".infolink").on("click", function() {
+			var urlink = $(this).data("link");
+			$.ajax({
+				url : urlink,
+				context : document.body,
+				success : function(data) {
+					$("#cinfo_area").html(data);
+				}
+			});
+		})
+
+	});
+</script>
+</body>
+</html>

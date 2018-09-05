@@ -1,0 +1,271 @@
+<style>
+.mx-1.disabled{
+	color:#ccc;
+}
+</style>
+<section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card ">
+            <div class="card-header">
+              <h3 class="card-title">角色管理</h3>
+              <div class="card-tools">
+                 <div class="btn-group">
+                        <button data-toggle="modal" data-atio="edit" data-target="#roleEdit" type="button" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> 添加</button>
+                        <button type="button" class="btn btn-sm btn-default"><i class="fa fa-trash"></i> 删除</button>
+                        <button type="button" class="btn btn-sm btn-default"><i class="fa fa-refresh"></i> 刷新</button>
+                      </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+					<form action="" method="get" class="form-row mx-2 mt-3">
+						<div class="col-md-6 mb-3">
+							<div class="form-group row">
+								<div class="col-sm-8">
+								      <input type="text" name="search" value="{$Request.param.search}" class="form-control" id="inlineFormInput" placeholder="搜索">
+								</div>
+								<div class="col-sm-2">
+							      <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+							    </div>
+							</div>
+						</div>
+
+					</form>
+					<table id="example2" class="table table-striped" id="communitylist">
+                <thead>
+                <tr>
+                  <th><input type="checkbox"/></th>
+                  <th>ID</th>
+                  <th>角色名称</th>
+                  <th>角色描述</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="roles" id="vo"}
+          		<tr>
+                  <td><input type="checkbox"/></td>
+                  <td>{$vo.id}</td>
+                  <td>{$vo.name}</td>
+                  <td>{$vo.remark}</td>
+                  <td>
+	{if condition="($vo.status ==1)"}
+	<span class="badge bg-success">&nbsp;&nbsp;&nbsp;</span>
+	{else /}
+	<span class="badge bg-danger">&nbsp;&nbsp;&nbsp;</span>
+	{/if}
+				</td>
+                  <td>
+	                  {if condition="($vo.id == 1)"} 
+		                 <font class="mx-1 disabled" >编辑 </font> 
+		                 <font class="mx-1 disabled" >权限 </font>
+		                 <font class="mx-1 disabled" >删除 </font>
+					{else /} 
+						<a class="mx-1 editRole" href="/admin/rbac/edit?rid={$vo.id}">编辑 </a> 
+	                  	<a class="mx-1 authRole" href="#" class="infolink" data-link='/admin/rbac/authorize?rid={$vo.id}' data-toggle="modal" data-target="#showCommunityInfo">权限 </a>
+	                  	<a class="mx-1 delRole" href="/admin/rbac/deleteRole?rid={$vo.id}">删除 </a>
+					{/if}
+                  </td>
+                </tr>
+				{/volist}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+				<div class="row mx-3">
+					<div class="col-sm-12 col-md-5">
+						<div class="dataTables_info" id="example2_info" role="status"
+							aria-live="polite">显示第 1 至 10 项结果，共 15 项</div>
+					</div>
+					<div class="col-sm-12 col-md-7">
+						<nav aria-label="...">
+						{$roles->render()}
+						</nav>
+					</div>
+				</div>
+
+			</div>
+          <!-- /.card -->
+          <!-- /.card -->
+          
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    
+    <!--  模态框  -->
+ <div class="modal fade" id="roleEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="roleTitle">添加角色</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form action="/account/">
+      	<input type="hidden" class="form-control" name="role_id" value="">
+           <div class="form-group">
+               <label for="recipient-name" class="control-label">名称:</label>
+               <input type="text" class="form-control"  name="role_name">
+           </div>
+           <div class="form-group">
+               <label for="message-text" class="control-label">描述:</label>
+               <textarea class="form-control"  name="role_remark" id=""></textarea>
+           </div>
+             <div class="form-group">
+			    <div class="form-check">
+			      <input class="form-check-input" checked="true" type="checkbox" name="status" id="statusCheck">
+			      <label class="form-check-label" for="gridCheck">
+			        是否启用
+			      </label>
+			    </div>
+			  </div>
+       </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id="saveRole">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 详情 -->
+<div class="modal fade bd-example-modal-lg" id="showCommunityInfo" tabindex="-1" role="dialog" aria-labelledby="showCommunityInfo" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">查看详情</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body" id="cinfo_area">
+      
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    
+    
+    
+
+<!-- jQuery -->
+<script src="__TMPL__/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="__TMPL__/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="__TMPL__/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="__TMPL__/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- SlimScroll -->
+<script src="__TMPL__/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="__TMPL__/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="__TMPL__/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="__TMPL__/dist/js/demo.js"></script>
+<!-- page script -->
+<script>
+	//角色管理
+	$(document).ready(function() {
+		$(".infolink").on("click", function() {
+			var urlink = $(this).data("link");
+			$.ajax({
+				url : urlink,
+				context : document.body,
+				success : function(data) {
+					$("#cinfo_area").html(data);
+				}
+			});
+		})
+	//添加 角色
+	$('#roleEdit').on('show.bs.modal', function(event) {
+			var button = $(event.relatedTarget) // Button that triggered the modal
+			var modal = $(this)
+			var form = modal.find("form");
+			$("#saveRole").on("click",function(){
+				var postData = {};
+				postData["role_name"] = modal.find("input[name='role_name']").val();
+				postData["role_remark"] = modal.find("textarea[name='role_remark']").val();
+				var cn = modal.find("input[name='status']:checked");
+				postData["status"] = (cn.length <=0)?0:1;
+				if(!postData["role_name"] || postData["role_name"].length >120){
+					alert("角色名称不合法");
+					return;
+				}
+				$.ajax({
+					url:"/admin/rbac/addRole",
+					data:postData,
+					type:'post',
+					success:function(data){
+						if(data.status!=0){
+							alert(data.info);
+							return ;
+						}
+						modal.modal("hide");
+						refreshView();
+					}
+				});
+			});
+		});
+		//
+		$('#roleEdit').on('hidden.bs.modal', function(event) {
+			var button = $(event.relatedTarget) // Button that triggered the modal
+			var modal = $(this);
+			modal.find("input[name='role_name']").val("");
+			modal.find("textarea[name='role_remark']").val("");
+			modal.find("input[name='status']").val("");
+		});
+		//编辑
+		
+		
+		
+		//提交删除
+		$(".delRole").on("click",function(event){
+			event.preventDefault();
+			var urlink = $(this).attr("href");
+			var rid = $(this).data("rid");
+			var pData = {};
+			pData["rid"] = rid;
+			//先这么凑合着吧
+			if(!window.confirm("您确认要删除该角色吗？")){
+				return false;
+			}
+			$.ajax({
+				url : urlink,
+				data	:pData,
+				context : document.body,
+				success : function(data) {
+					if(!data.status == 0){
+						alert("删除失败："+data.info);
+						return ;
+					}
+					refreshView();
+				}
+			});
+		});
+		
+		//刷新
+		function refreshView()
+		{
+			window.location.reload();
+		}
+	});
+</script>
+</body>
+</html>
