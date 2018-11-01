@@ -3,15 +3,15 @@
  *  管理员界面统一入口
  *  
  */
-namespace app\account\controller;
-use core\controller\Account;
+namespace app\passport\controller;
 use think\Config;
 use core\includes\session\SessionManagement;
 use core\service\UserService;
+use core\controller\Frame;
 
-class Index extends Account
+class Index extends Frame
 {
-    protected $no_auth_action = ["initlayout","login","logout"]; //全小写
+    protected $no_auth_action = ["login","logout","index"]; //全小写
     
     //系统入口
     public function index()
@@ -57,7 +57,7 @@ class Index extends Account
         SessionManagement::endSession();
         $this->result("");
     }
-    
+   
     /**
      * 获取用户的详细信息
      */

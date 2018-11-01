@@ -16,12 +16,13 @@ error_reporting(E_ALL);
 // 定义应用目录
 
 define('ERROR_PREFIX',"e_");
-define('APP_PATH', __DIR__ . '/../application/');
-define("BLW_LOG_PATH", "/var/www/tmp/");
+define('APP_PATH', __DIR__ . '/application/');
+define("BLW_LOG_PATH", __DIR__."/tmp/log/");
 define("EXTEND_PATH", APP_PATH."../extend/");
-
+define('EXTEND_MOUDLES', ['core','community',"api"]); 
 // 加载框架引导文件
+
 //require __DIR__ . '/../thinkphp/base.php';
 // 执行应用并响应
 //Container::get('app')->run()->send();
-require __DIR__ . '/../thinkphp/start.php'; 
+require __DIR__ . '/thinkphp/start.php';

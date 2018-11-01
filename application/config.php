@@ -29,7 +29,7 @@ $configs =  [
     // 扩展函数文件
     'extra_file_list'        => [THINK_PATH . 'helper' . EXT],
     // 默认输出类型
-    'default_return_type'    => 'html',
+    'default_return_type'    => 'json',
     // 默认AJAX 数据返回格式,可选json xml ...
     'default_ajax_return'    => 'json',
     // 默认JSONP格式返回的处理方法
@@ -42,7 +42,7 @@ $configs =  [
     'lang_switch_on'         => false,
     // 默认全局过滤方法 用逗号分隔多个
     'default_filter'         => '',
-    // 默认语言
+    // 默认语言 
     'default_lang'           => 'zh-cn',
     // 应用类库后缀
     'class_suffix'           => false,
@@ -161,9 +161,9 @@ $configs =  [
     // 错误显示信息,非调试模式有效
     'error_message'          => '页面错误！请稍后再试～',
     // 显示错误信息
-    'show_error_msg'         => false,
+    'show_error_msg'         => true,
     // 异常处理handle类 留空使用 \think\exception\Handle
-    'exception_handle'       => '',
+    'exception_handle'       => '\\core\\exception\\SystemHandle',
 
     // +----------------------------------------------------------------------
     // | 日志设置
@@ -248,11 +248,11 @@ $configs =  [
     'paginate'               => [
         'type'      => 'bootstrap',
         'var_page'  => 'page',
-        'list_rows' => 15,
+        'list_rows' => 10,
     ],
     //扩展模块
     "extend_moudles"=>[
-        "core"
+        "core","community"
     ]
     
 ];
@@ -266,7 +266,12 @@ foreach ($configs["extend_moudles"] as $moudle)
     if(is_file($conf_file)){
         $m_config = require_once $conf_file;
     }
-    $extendConfig = array_merge($extendConfig,$m_config);
+    $m_errorcode = [];
+    $errorcode_file = EXTEND_PATH."/".$moudle."/common/errorcode.php";
+    if(is_file($errorcode_file)){
+        $m_errorcode = require_once $errorcode_file;
+    }
+    $extendConfig = array_merge($extendConfig,$m_config,$m_errorcode);
 }
 
 return array_merge($configs,$extendConfig);

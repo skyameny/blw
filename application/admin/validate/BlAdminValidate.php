@@ -16,8 +16,11 @@ class BlAdminValidate extends Validate
         'passwd'             => 'require',
         "password"           => 'require|isPasswd',
         'captcha|验证码'      =>'require|captcha',
-        'role_name'          =>'require',
-        'mobile'            =>'require|isMobile',
+        'role_name'          =>'require|max:120',
+        'mobile'            =>'require|regex:1[3-9]{1}[0-9]{9}',
+        'key'               =>"require|regex:[a-zA-Z_][a-zA-Z0-9_]{1,32}", 
+        'value'             =>"require|max:255",
+        'gid'               =>"number"
     );
     
     protected $message = array(
@@ -27,8 +30,15 @@ class BlAdminValidate extends Validate
         'password.require'    => "密码不能为空",
         'passwd.require'      => "密码不能为空",
         'role_name.require'       =>  "角色名称不能为空",
+        'role_name.max'       =>  "角色名称超过最大限制120",
         'mobile.require'    =>"手机号码不能为空",
-        'mobile.isMobile'    =>"手机号码不合法",
+        'mobile.regex'    =>"手机号码不合法",
+        'key.require'    =>"配置键名不能为空",
+        'key.regex'      =>STATUS_CODE_SETTING_NAME_ERROR,
+        'value.require'    =>"配置值不能为空",
+        'value.max'    =>"配置值长度不能超过255",
+        'gid.number'    =>"需要指定合法的社区ID"
+        
         
     );
     
@@ -37,6 +47,10 @@ class BlAdminValidate extends Validate
         'addrole' =>["role_name"],
         //
         'adduser' =>["username","mobile"],
+        
+        'setconfig' =>["key","value","gid"],
+        
+        'deleteconfig'=>["key"],
 
     );
     

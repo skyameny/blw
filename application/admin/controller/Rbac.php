@@ -9,66 +9,66 @@ use core\models\Role;
 use core\utils\ExLog;
 use core\exception\RoleException;
 use core\service\UsersService;
-use core\models\User;
+use core\model\User;
 use core\exception\UserException;
 use core\service\AuthService;
-use core\models\AuthAcess;
-use core\models\AuthRule;
+use core\model\AuthRule;
+use core\service\RbacService;
+use core\controller\tool\ApiPagination;
 
 class Rbac extends  Admin
 {
+    
+    use ApiPagination;
+    
+    protected $rbacService=null;
+    
+    public function _initialize(){
+        $this->rbacService = RbacService::singleton();
+        parent::_initialize();
+    }
+    
     /**
      * role列表
-     * 
+     * 支持参数 search
      */
-    public function Role(){
-        $keywords = trim($this->request->param("search"));
-        if(!empty($keywords)){
-            $role = Role::where('name','like','%'.$keywords."%");
-        }else{
-            $role = Role::where(1);
-        }
-        $roles = $role->paginate(10,false,[
-            'type'     => 'Bootstrap4',
-            'var_page' => 'page',
-        ]);
-        $this->assign("roles",$roles);
-        return $this->fetch();
+    public function getRoleList(){
+        $roles = $this->rbacService->searchRoles($this->paginationParams(["status"]));
+        $this->result($roles);
     }
     /**
+     * 获取权限列表
+     * 角色列表
+     */
+    public function getAuthRule()
+    {
+        $role_id = $this->request->param("role_id");
+        $role = $this->rbacService->getRole($role_id);
+        $role_rules = $this->rbacService->getAuthRule($role);
+        $this->result($role_rules);
+    }
+    
+    /**
      * addRole
+     * 添加用户
      * models ajax
-     * 
      */
     public function addRole()
     {
-        if(!$this->request->isPost())
-        {
-          //  return false;
-        }
         $this->checkParams("BlAdminValidate");
-        $role_name = $this->request->param("role_name");
-        $role_remark = $this->request->param("role_remark");
-        $role_status = $this->request->param("status");
-        if(strlen($role_name) >120){
-            $this->result("",PARAM_TYPE_ERROR,"描述不符合要求");
-        }
-        $role_status = ($role_status>0)?1:0;
-        $role = new Role();
-        $role->name = $role_name;
-        $role->remark = $role_remark;
-        $role->status = $role_status;
-        $role->create_time = time();
-        $role->save();
+        $role = $this->rbacService->addRole($this->request->param());
         $this->log("添加角色");
-        $this->result("添加成功");
+        $this->result($role);
     }
     /**
      * 编辑角色
      */
     public function editRole()
     {
-        
+        $this->checkParams("BlAdminValidate");
+        $role = $this->rbacService->editRole($this->request->param());
+        $this->log("编辑角色");
+        $this->result($role);
     }
     
     /**
