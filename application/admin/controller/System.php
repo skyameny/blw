@@ -18,7 +18,6 @@ class System extends  Admin
     protected $sysService = null;
     
     public function _initialize(){
-        
         $this->sysService = SystemService::singleton();
         parent::_initialize();
     }

@@ -32,29 +32,8 @@ class BlValidate extends Validate
     );
     
     protected  $scene = array(
-        'login' => ["passwd","username"],
-        //startTask
-        'addRole' =>["role_name"],
-        //getToken
-        'gettoken' =>["ep_id","ep_name","mt_domain","es_domain"],
-        //修改企业
-        'modifyep' => ["ep_name","mt_domain","ep_id","record_auth",'token','es_domain'],
-        //修改任务
-        'modifytask' => ["task_name","task_id","quality_inspection_item","token","call_list"],
-        //注册
-        'registerep' => ["ep_name","mt_domain","ep_id","record_auth",'es_domain'],
-        //提交质检任务
-        'inspectquality' => ['task_id','task_name','quality_inspection_item','token'],
-        //查询质检状态
-        'queryinspectionstate' => ['quality_inspection_id','token'],
-        //查询质检结果
-        'queryinspectionresult' => ['quality_inspection_id','count','page','token'],
-        //暂停质检
-        'pauseinspectquality' => ['quality_inspection_id','token'],
-        //重新质检
-        'reinspectquality' => ['quality_inspection_id','token'],
-        //删除质检任务
-        'deleteinspectquality' => ['quality_inspection_id','token'],
+        'getCommunity' => ["passwd","username"],
+    
     );
     
     protected function isDomain($value)

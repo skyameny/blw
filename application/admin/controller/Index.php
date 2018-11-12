@@ -5,7 +5,6 @@
 namespace app\admin\controller;
 
 use core\controller\Admin;
-use think\Request;
 
 class Index extends Admin
 {

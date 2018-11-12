@@ -20,7 +20,8 @@ class BlAdminValidate extends Validate
         'mobile'            =>'require|regex:1[3-9]{1}[0-9]{9}',
         'key'               =>"require|regex:[a-zA-Z_][a-zA-Z0-9_]{1,32}", 
         'value'             =>"require|max:255",
-        'gid'               =>"number"
+        'cid'               =>"require|number",
+        "cname"              =>"require|max:255",
     );
     
     protected $message = array(
@@ -37,20 +38,18 @@ class BlAdminValidate extends Validate
         'key.regex'      =>STATUS_CODE_SETTING_NAME_ERROR,
         'value.require'    =>"配置值不能为空",
         'value.max'    =>"配置值长度不能超过255",
-        'gid.number'    =>"需要指定合法的社区ID"
+        'cid.require'    => STATUS_CODE_COMMUNITY_NOT_FOUND,
+        'cid.number'    => STATUS_CODE_COMMUNITY_NOT_FOUND,
+        'cname.require' =>"请填写社区名称",
+        'cname.max'     =>"名字太长了",
         
         
     );
     
     protected  $scene = array(
         //startTask
-        'addrole' =>["role_name"],
-        //
-        'adduser' =>["username","mobile"],
-        
-        'setconfig' =>["key","value","gid"],
-        
-        'deleteconfig'=>["key"],
+        'getcommunityinfo' =>["cid"],
+        'regiter'=>["cname","address"],
 
     );
     

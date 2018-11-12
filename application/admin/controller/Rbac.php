@@ -5,7 +5,7 @@
 namespace app\admin\controller;
 
 use core\controller\Admin;
-use core\models\Role;
+use core\model\Role;
 use core\utils\ExLog;
 use core\exception\RoleException;
 use core\service\UsersService;

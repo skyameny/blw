@@ -2,7 +2,6 @@
 namespace app\api\controller;
 
 use core\controller\Api;
-use core\controller\Base;
 use think\Controller;
 use core\controller\tool\EncryptionAttribute;
 

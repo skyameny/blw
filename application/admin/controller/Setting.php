@@ -60,11 +60,5 @@ class Setting extends Admin
         $this->log("删除配置[$key]");
         $this->result("");
     }
-
-    
-   
-    
-    
-    
     
 }
