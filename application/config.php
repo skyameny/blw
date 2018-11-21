@@ -257,21 +257,26 @@ $configs =  [
     
 ];
 
-//extendConfig
+// 扩展配置
+define('ERROR_PREFIX', 'e_');
 $extendConfig = [];
-foreach ($configs["extend_moudles"] as $moudle)
-{
-    $m_config = [];
-    $conf_file = EXTEND_PATH."/".$moudle."/common/config.php";
-    if(is_file($conf_file)){
+foreach ($configs['extend_moudles'] as $key => $moudle) {
+    $const_file = EXTEND_PATH . DS . $moudle . "/common/const.php";
+    if (is_file($const_file)) {
+        include_once $const_file;
+    }
+    
+    $conf_file = EXTEND_PATH . DS . $moudle . "/common/config.php";
+    if (is_file($conf_file)) {
         $m_config = require_once $conf_file;
     }
+    
     $m_errorcode = [];
-    $errorcode_file = EXTEND_PATH."/".$moudle."/common/errorcode.php";
-    if(is_file($errorcode_file)){
+    $errorcode_file = EXTEND_PATH . DS . $moudle . "/common/errorcode.php";
+    if (is_file($errorcode_file)) {
         $m_errorcode = require_once $errorcode_file;
     }
-    $extendConfig = array_merge($extendConfig,$m_config,$m_errorcode);
+    $extendConfig = array_merge($extendConfig, $m_config, $m_errorcode);
 }
 
 return array_merge($configs,$extendConfig);

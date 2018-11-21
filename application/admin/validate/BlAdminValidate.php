@@ -22,6 +22,9 @@ class BlAdminValidate extends Validate
         'value'             =>"require|max:255",
         'cid'               =>"require|number",
         "cname"              =>"require|max:255",
+        'community_id'      =>"require|number",
+        'building_name'     =>'require'
+        
     );
     
     protected $message = array(
@@ -42,13 +45,16 @@ class BlAdminValidate extends Validate
         'cid.number'    => STATUS_CODE_COMMUNITY_NOT_FOUND,
         'cname.require' =>"请填写社区名称",
         'cname.max'     =>"名字太长了",
+        'community_id.require'  =>STATUS_CODE_ON_COMMUNITY_ID,
+        'community_id.number'  =>STATUS_CODE_ON_COMMUNITY_ID,
+        'building_name.require'  =>STATUS_CODE_BUILDING_NO_NAME,
         
         
     );
     
     protected  $scene = array(
         //startTask
-        'getcommunityinfo' =>["cid"],
+        'getinfo' =>["cid"],
         'regiter'=>["cname","address"],
 
     );

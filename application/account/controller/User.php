@@ -11,7 +11,7 @@
 namespace app\account\controller;
 use core\controller\Account;
 use think\Config;
-use core\models\Operator;
+use core\model\Operator;
 
 class User extends Account
 {

@@ -1,28 +1,30 @@
 <?php
 /**
  * 系统管理员
- * 社区管理
+ * ::getInfo 获取详细信息
+ * ::getBuilding 获取社区楼盘
+ * ::get
  */
 namespace app\admin\controller;
 
-use core\controller\Admin;
 use think\Request;
 use core\controller\tool\ApiPagination;
 use community\service\CommunityService;
-use app\admin\validate\BlAdminValidate;
 use community\model\Community as CommunityModel;
+use app\admin\validate\CommunityValidate;
+use core\controller\Admin;
 
 class Community extends Admin
 {
     use ApiPagination;
 
-    protected $validate = BlAdminValidate::class;
+    protected $validate = CommunityValidate::class;
 
     protected $communityService = null;
 
     public function _initialize()
     {
-        $this->communityService = CommunityService::singleton();
+        $this->communityService = CommunityService::singleton(); //ServiceManagement::singleton()->get("community");
         parent::_initialize();
     }
 
@@ -42,7 +44,7 @@ class Community extends Admin
      *
      * @author Dream
      */
-    public function getCommunityInfo()
+    public function getInfo()
     {
         $this->checkRequest();
         $cid = $this->request->param("cid");
@@ -82,5 +84,13 @@ class Community extends Admin
     {
         // 暂不支持
         $this->result("", STATUS_CODE_NOT_SUPPORT);
+    }
+    
+    /**
+     * 拒绝请求
+     */
+    protected function deny()
+    {
+        $this->result("",STATUS_CODE_AUTH_FAILED);
     }
 }

@@ -15,11 +15,9 @@ error_reporting(E_ALL);
 // register_shutdown_function(function(){ var_dump(error_get_last()); });
 // 定义应用目录
 
-define('ERROR_PREFIX',"e_");
 define('APP_PATH', __DIR__ . '/../application/');
 define("BLW_LOG_PATH", "/var/www/tmp/");
 define("EXTEND_PATH", APP_PATH."../extend/");
-
 // 加载框架引导文件
 //require __DIR__ . '/../thinkphp/base.php';
 // 执行应用并响应
