@@ -9,21 +9,21 @@
  + Desc         : 项目描述
  +-------------------------------------------------------------------------------------------
 */
-
 namespace app\test\controller;
 
 use think\Controller;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 
+include APP_PATH."../vendor/autoload.php";
+
 class Jwtt extends  Controller
 {
-    
-    public function  token()
+    public function  token() 
     {
-        exit("dde");exit;
         $builder = new Builder();
         $signer = new Sha256();
+        
         $builder->setIssuer('http://example.com');
         // 设置接收人
         $builder->setAudience('http://example.org');

@@ -16,7 +16,7 @@ class Passport extends Api
     
     protected  $no_auth_action =["token"];
     
-    public function login() :string
+    public function auth() :string
     {
         $requestParams = $this->request->param();
         $this->validate($this->request->param(), $this->validate);
