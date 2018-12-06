@@ -11,7 +11,7 @@ use think\Config;
 
 class SettingService extends Service
 {
-    const AVAILABLED_USED = 1; //可用的type值
+    const AVAILABLE_USED = 1; //可用的type值
     
     protected  static  $sys_config = [];
 
@@ -32,7 +32,7 @@ class SettingService extends Service
             $map['key'] = $key;
         }
         $map['gid'] = ! empty($eid) ? $eid : 'null';
-        $map["status"] = self::AVAILABLED_USED;
+        $map["status"] = self::AVAILABLE_USED;
         $configs = systemConfig::all($map);
         if (count($configs) == 1) {
             $config = $configs[0];
@@ -110,7 +110,7 @@ class SettingService extends Service
             'value' => $value,
             'gid' =>$eid,
             'type' =>($config)?$config->getAttr("type"):$type,
-            'status' => self::AVAILABLED_USED
+            'status' => self::AVAILABLE_USED
         ];
         if(!empty($describe)){
             $save_data['describe'] = $describe;
@@ -154,13 +154,12 @@ class SettingService extends Service
         if(!isset($condition["cid"])){
             $condition["cid"] = SYSTEM_DEFAULT_CID;
         }
-        $ispaginate = !empty($condition["page"]);
         return $sc_model->searchInstances($condition);
     }
 
     /**
      * 删除配置
-     * @param unknown $key
+     * @param string $key
      * @param number $gid
      * @throws CommonException
      */

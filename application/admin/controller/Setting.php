@@ -10,23 +10,26 @@ use core\service\SettingService;
 use core\controller\tool\ApiPagination;
 
 class Setting extends Admin
-{
+    {
     use ApiPagination;
-    
+
     protected $settingService = null;
-    
+
     public function _initialize()
     {
-        $this->settingService = SettingService::singleton();
-        parent::_initialize();
+    $this->settingService = SettingService::singleton();
+    parent::_initialize();
     }
-    
+
     /**
      * 获取系统设置
      */
     public function getConfig()
     {
         $configs = $this->settingService->searchInstances($this->paginationParams());
+        foreach ($configs["content"] as $_key => $config) {
+            $configs["content"][$_key] = $config->visible(["key", "value"])->toArray();
+        }
         $this->result($configs);
     }
     
@@ -39,7 +42,7 @@ class Setting extends Admin
      */
     public function setConfig()
     {
-        $this->checkParams("BlAdminValidate");
+      //  $this->checkParams("BlAdminValidate");
         $key = $this->request->param("key");
         $value = $this->request->param("value");
         $gid = $this->request->param("gid")??0;
@@ -54,11 +57,10 @@ class Setting extends Admin
      */
     public function deleteConfig()
     {
-        $this->checkParams("BlAdminValidate");
+        //$this->checkParams("BlAdminValidate");
         $key = $this->request->param("key");
         $this->settingService->deleteConfig($key);
         $this->log("删除配置[$key]");
         $this->result("");
     }
-    
 }

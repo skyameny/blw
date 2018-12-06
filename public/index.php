@@ -16,9 +16,9 @@ error_reporting(E_ALL);
 // 定义应用目录
 
 define('APP_PATH', __DIR__ . '/../application/');
-define("BLW_LOG_PATH", "/var/www/tmp/");
+define("BLW_LOG_PATH", __DIR__."../");
 define("EXTEND_PATH", APP_PATH."../extend/");
-define('CONF_PATH', APP_PATH.'/../config/');
+define('CONF_PATH', APP_PATH . '../config/');
 // 加载框架引导文件
 //require __DIR__ . '/../thinkphp/base.php';
 // 执行应用并响应

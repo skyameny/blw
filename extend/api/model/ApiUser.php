@@ -1,12 +1,11 @@
 <?php
 namespace api\model;
 
+use core\model\BlModel;
 use think\Model;
-use core\model\Base;
 use core\utils\ExLog;
 use core\model\SystemConfig;
 use api\includes\helper\HelperApi;
-use core\model\BlModel;
 
 /**
  * @desc api用户表
@@ -47,7 +46,7 @@ class ApiUser extends BlModel
      * 
      * @param unknown $ip
      */
-    public function createAccessToken($ip)
+    public function createAccessToken($ip=null)
     {
         $data = [];
         $data["ip"] = $ip;

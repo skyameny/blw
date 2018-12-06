@@ -6,8 +6,8 @@
  */
 namespace community\model;
 
+use core\model\BlModel;
 use think\Config;
-use core\models\BlModel;
 
 class Member extends BlModel
 {

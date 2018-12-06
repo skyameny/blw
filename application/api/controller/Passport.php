@@ -15,19 +15,24 @@ class Passport extends Api
     protected $validate = "app\\api\\validate\\ApiValidate";
     
     protected  $no_auth_action =["token"];
-    
-    public function auth() :string
+
+    /**
+     * 验证登录信息
+     */
+    public function auth()
     {
         $requestParams = $this->request->param();
         $this->validate($this->request->param(), $this->validate);
         $api_service = ApiService::singleton();
-        $user = $api_service->authUser($this->request->param("appid"),$this->request->param("secret"));
+        $user = $api_service->authUser($this->request->param("username"),$this->request->param("password"));
         if(!is_null($user)){
             $this->result("",STATUS_INVALID_APPID);
         }
         $token = $api_service->getToken($user);
         $this->result($token);
     }
+
+
     
     
 }

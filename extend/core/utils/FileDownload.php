@@ -66,7 +66,7 @@ class FileDownload{ // class start
 
     /**获取header range信息
     * @param  int   $file_size 文件大小
-    * @return Array
+    * @return mixed
     */
     private function getRange($file_size){
         if(isset($_SERVER['HTTP_RANGE']) && !empty($_SERVER['HTTP_RANGE'])){
@@ -88,4 +88,4 @@ class FileDownload{ // class start
         return null;
     }
 
-} // class end
+}

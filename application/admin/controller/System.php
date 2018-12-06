@@ -7,9 +7,9 @@
 namespace app\admin\controller;
 
 use core\controller\Admin;
-use think\Request;
-use core\service\SystemService;
 use core\controller\tool\ApiPagination;
+use core\model\SystemConfig;
+use core\service\SystemService;
 
 class System extends  Admin
 {

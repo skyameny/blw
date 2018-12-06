@@ -15,7 +15,7 @@ abstract class BlModel extends Model
 {
     protected $likeColumn = [];
     
-    public static function getComunity()
+    public static function getCommunity()
     {
         return defined("COMMUNITY_IDENTITY") ? COMMUNITY_IDENTITY : null;
     }
@@ -23,17 +23,17 @@ abstract class BlModel extends Model
     /**
      * 查找对象
      * 
-     * @param unknown $map            
+     * @param array $map
      * @return boolean|\think\static[]|\think\false
      */
     public function searchInstances($condition = [])
     {
         $returnValue = [];
-        $swhere = [];
+        $s_where = [];
         if (isset($condition["keywords"]) && ! empty($condition["keywords"])) {
             if (! empty($this->likeColumn)) {
                 $like_key = implode($this->likeColumn, "|");
-                $swhere["$like_key"] = [
+                $s_where["$like_key"] = [
                     "like",
                     "%" . trim($condition["keywords"]) . "%"
                 ];
@@ -47,13 +47,13 @@ abstract class BlModel extends Model
         unset($condition["page"]);
         unset($condition["limit"]);
         unset($condition["sort"]);
-        $swhere = array_merge($swhere, $condition);
+        $s_where = array_merge($s_where, $condition);
         $call_class = get_called_class();
         $sc_model = new $call_class();
         if ($ispaginate) {
-            $returnValue["count"] = $sc_model->where($swhere)->count();
+            $returnValue["count"] = $sc_model->where($s_where)->count();
         }
-        $query = $sc_model->where($swhere);
+        $query = $sc_model->where($s_where);
         if (! empty($page) && ! empty($limit)) {
             $start = ($page - 1) * $limit;
             $query = $query->limit($start, $limit);

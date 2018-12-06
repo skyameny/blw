@@ -99,13 +99,13 @@ class Base extends Controller
      * 请求参数验证
      * step1 :验证session权限
      * step2 :验证role权限
-     * setp3 :验证参数列表
-     * 
+     * step3 :验证参数列表
+     *
      * @param array $message
      * @param string $batch
-     * @param unknown $callback
+     * @param mixed $callback
      */
-    protected function checkRequest($validate=null)
+    protected function checkRequest($validate = null)
     {
         $flag = $this->validate($this->request->param(), $this->validate . "." . $this->request->action());
         if ($flag !== true) {
@@ -113,9 +113,9 @@ class Base extends Controller
                 $msg = Config::get(ERROR_PREFIX . $flag);
                 $error_code = $flag;
             }
-            $msg = $msg ?? $flag;
-            $error_code = $error_code ?? STATUS_CODE_PARAM_ERROR;
-            $this->result('', $error_code, (string) $msg);
+            $msg = empty($msg) ? $flag : $msg;
+            $error_code = empty($error_code) ? STATUS_CODE_PARAM_ERROR : $error_code;
+            $this->result('', $error_code, (string)$msg);
         }
     }
     

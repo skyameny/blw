@@ -16,7 +16,7 @@ class Api extends Base
     
     protected static $garden = null;
     
-    protected $token_expried_prompt = 0; //token即将过去提示错误码
+    protected $token_expired_prompt = 0; //token即将过去提示错误码
     
     protected $validate = ApiValidate::class;
     protected $no_auth_action = []; //全小写
@@ -48,7 +48,7 @@ class Api extends Base
             try {
                 $result =$api_user_service->validateAuth($access_token);
             } catch (TokenWillBeExpiredException $e) {
-                $this->token_expried_prompt = $e->getCode();
+                $this->token_expired_prompt = $e->getCode();
             }
             return true;
         }
@@ -61,9 +61,9 @@ class Api extends Base
      *
      * @return number
      */
-    protected function getTokenExpriedPrompt()
+    protected function getTokenExpiredPrompt()
     {
-        return $this->token_expried_prompt;
+        return $this->token_expired_prompt;
     }
     
     /**

@@ -7,7 +7,6 @@
  */
 namespace app\admin\controller;
 
-use think\Request;
 use core\controller\tool\ApiPagination;
 use community\service\CommunityService;
 use community\model\Community as CommunityModel;
@@ -41,7 +40,6 @@ class Community extends Admin
 
     /**
      * 获取社区基本信息
-     *
      * @author Dream
      */
     public function getInfo()
@@ -49,7 +47,6 @@ class Community extends Admin
         $this->checkRequest();
         $cid = $this->request->param("cid");
         $community = CommunityModel::get($cid);
-        // $community = $this->communityService->searchInstances(["id"=>$cid]);
         if (empty($community)) {
             $this->result("", STATUS_CODE_COMMUNITY_NOT_FOUND);
         }
@@ -60,7 +57,7 @@ class Community extends Admin
      * 注册社区
      * 添加到数据库
      */
-    public function regiter()
+    public function register()
     {
         $this->checkRequest();
         $from_data = [];
@@ -77,12 +74,9 @@ class Community extends Admin
 
     /**
      * 注销
-     * 
-     * @return mixed|string
      */
     public function unRegister()
     {
-        // 暂不支持
         $this->result("", STATUS_CODE_NOT_SUPPORT);
     }
     

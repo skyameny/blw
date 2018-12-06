@@ -23,9 +23,9 @@ return [
     'username'        => 'root',
     // 密码
     //'password'        => 'Banglin123456',
-    'password'        => '123456',
+    'password'        => 'root',
     // 端口
-    'hostport'        => '3306',
+    'port'        => '3306',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数

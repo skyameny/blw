@@ -10,7 +10,17 @@ class ApiService extends Service
     {
         
     }
-    
+
+
+    /**
+     * 验证API用户登录
+     * @param $username
+     * @param $password
+     */
+    public function authUser($username,$password)
+    {
+
+    }
     
     
 }

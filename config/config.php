@@ -245,34 +245,33 @@ $configs =  [
     ],
 
     //分页配置
-    'paginate'               => [
+    'paginate' => [
         'type'      => 'bootstrap',
         'var_page'  => 'page',
         'list_rows' => 10,
     ],
     //扩展模块
-    "extend_moudles"=>[
+    "bl_extend_modules" =>[
         "core","community"
-    ]
-    
+    ],
 ];
 
 // 扩展配置
 define('ERROR_PREFIX', 'e_');
 $extendConfig = [];
-foreach ($configs['extend_moudles'] as $key => $moudle) {
-    $const_file = EXTEND_PATH . DS . $moudle . "/common/const.php";
+foreach ($configs['bl_extend_modules'] as $key => $moudel) {
+    $const_file = EXTEND_PATH . DS . $moudel . "/common/const.php";
     if (is_file($const_file)) {
         include_once $const_file;
     }
     
-    $conf_file = EXTEND_PATH . DS . $moudle . "/common/config.php";
+    $conf_file = EXTEND_PATH . DS . $moudel . "/common/config.php";
     if (is_file($conf_file)) {
         $m_config = require_once $conf_file;
     }
     
     $m_errorcode = [];
-    $errorcode_file = EXTEND_PATH . DS . $moudle . "/common/errorcode.php";
+    $errorcode_file = EXTEND_PATH . DS . $moudel . "/common/errorcode.php";
     if (is_file($errorcode_file)) {
         $m_errorcode = require_once $errorcode_file;
     }

@@ -12,8 +12,8 @@ use core\exception\PasswordException;
 class ApiValidate extends Validate
 {
     protected $rule = array(
-        "access_key"=>'require|regex:^[0-9a-zA-Z\_]{36}$', 
-        "secret_key"=>'require|regex:^[0-9a-zA-Z\_]{32}$',
+        "access_key"=>'require|regex:^[0-9a-zA-Z\_]{32}$', 
+        "secret_key"=>'require|regex:^[0-9a-zA-Z\_]{63}$',
         "grant_type"=>'require|eq:api',
     ); 
      
@@ -28,7 +28,7 @@ class ApiValidate extends Validate
     
     protected  $scene = array(
         //获取token
-        'token' => ["access_key","secret_key","grant_type"],
+        'auth' => ["access_key","secret_key"], 
         //startTask
     );
     

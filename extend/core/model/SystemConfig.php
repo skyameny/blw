@@ -44,12 +44,12 @@ class SystemConfig extends BlModel
     {
         return $this->getAttr("type") === self::READ_ONLY_TYPE;
     }
-    
+
     /**
      * 删除
-     * 
-     * {@inheritDoc}
-     * @see \think\Model::delete()
+     *
+     * @return int|void
+     * @throws CommonException
      */
     public function delete()
     {
@@ -58,6 +58,4 @@ class SystemConfig extends BlModel
         }
         parent::delete();
     }
-    
-    
 }

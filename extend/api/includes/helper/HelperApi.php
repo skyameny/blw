@@ -26,7 +26,7 @@ class HelperApi
     public static function createAppid($enterprise_uid)
     {
         $salt = HelperRandom::generateString(32);
-        return "api_".md5($salt.$enterprise_uid);
+        return md5($salt.$enterprise_uid);
     }
     /**
      * 生成密钥
@@ -35,7 +35,7 @@ class HelperApi
     public static function createSecret()
     {
         $salt = HelperRandom::generateString(32);
-        return md5($salt);
+        return substr($salt, 0,15).md5($salt).substr($salt, 0,16);
     }
     
     

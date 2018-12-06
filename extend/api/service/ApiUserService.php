@@ -7,14 +7,14 @@
 namespace api\service;
 
 use core\service\Service;
-use api\dao\ApiUserDao;
+
 use api\exception\ApiException;
 use api\model\ApiUser;
 use api\model\AccessToken;
 use api\exception\TokenWillBeExpiredException;
-use aicallup\model\Enterprise;
 use core\utils\ExLog;
 use api\includes\helper\HelperApi;
+use think\Request;
 
 class ApiUserService extends Service
 {
@@ -52,7 +52,7 @@ class ApiUserService extends Service
             ExLog::log("不存在该用户",ExLog::INFO);
             throw new ApiException(STATUS_API_TOKEN_EXPIRE); // token无效
         }
-        $eid = $api_user->getAttr("eid");
+        $eid = $api_user->getAttr("eid"); 
         defined("API_ENTERPRISE_ID") or define("API_ENTERPRISE_ID", $eid);
         if(!$api_user->enterprise->isApi()){
             ExLog::log("企业未开通API功能",ExLog::INFO);
@@ -65,6 +65,7 @@ class ApiUserService extends Service
             throw new ApiException(STATUS_API_TOKEN_EXPIRE); // token无效
         }
         else if ($token->status() === AccessToken::TOKEN_STATUS_RESERVED) {
+            ExLog::log("TOKEN即将过期",ExLog::INFO);
             throw new TokenWillBeExpiredException();
         }
         return true;
@@ -78,7 +79,7 @@ class ApiUserService extends Service
     {
         $api_user = $this->getApiUser($enterprise);
         if(!empty($api_user)){
-            throw new ApiException(STATUS_ENTERPEISE_APIUSER_OVER);
+            throw new CoreException(STATUS_ENTERPEISE_APIUSER_OVER);
         }
         $api_user = new ApiUser();
         $data["eid"] = $enterprise->getAttr("id");
@@ -90,6 +91,22 @@ class ApiUserService extends Service
         ExLog::log("正在创建API用户[".$data["appid"]."]",ExLog::INFO);
         return $api_user;
     }
+    
+    /**
+     * 获取用户
+     * 
+     * @param unknown $access_token
+     * @return array|\think\db\false|PDOStatement|string|\think\Model
+     */
+    public function getApiUserByToken($access_token)
+    {
+        $api_user = ApiUser::hasWhere('access_token', [
+            "access_token" => $access_token
+        ])->order("id desc")->find();
+        return $api_user;
+    }
+    
+    
     
     /*
      * 
@@ -123,8 +140,23 @@ class ApiUserService extends Service
     public function createToken(ApiUser $user,$ip)
     {
         //删除现有的token
-        $user->access_token()->where(["ip"=>$ip])->delete();
+        $user->access_token()->delete();
         $token = $user->createAccessToken($ip);
         return $token;
+    }
+    
+    /**
+     * 
+     * @param unknown $eid
+     */
+    public function getToken(Enterprise $enterprise)
+    {
+        $access_token = "";
+        $apiUser = $this->getApiUser($enterprise);
+        if($apiUser){
+            $request = Request::instance();
+            $access_token =$apiUser->access_token()->find();
+        }
+        return empty($access_token)?"":$access_token->getAttr("access_token");
     }
 }

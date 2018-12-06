@@ -15,9 +15,6 @@ class Index extends Api
         $request = $this->apiParams();
         
         $res = $this->decode_AES_ECB($request,"sssss");
-        
-        
-        
         $asy = ["name"=>"${res}","age"=>34];
         $this->result($asy);
     }

@@ -49,7 +49,7 @@ class ServiceManagement
         if (!$this->has($serviceKey)){
             $serviceClass = $serviceKey;
             if(strpos($serviceClass, "\\") === false){
-                $modules = Config::get("extend_moudles");
+                $modules = Config::get("bl_extend_modules");
                 foreach ($modules as $module)
                 {
                     $serviceClass = $module."\\service\\".Loader::parseName($serviceKey,1)."Service";
@@ -59,9 +59,10 @@ class ServiceManagement
                     $serviceClass = "";
                 }
             }
-            if(class_exists($serviceClass) ){
+            if(class_exists($serviceClass)){
                 $service = $serviceClass::singleton();
-            } 
+            }
+
             if ($service === false) {
                 throw new ServiceException($serviceKey,100000);
             }

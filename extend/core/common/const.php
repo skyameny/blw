@@ -20,6 +20,8 @@ define("CLIENT_WEBSITE", 1);
 define("CLIENT_APP", 2);
 define("CLIENT_CLI", 3);
 define("DEFAULT_LANG","zh-CN");//默认语言
+define("SYSTEM_DEFAULT_GID","0");//默认语言
+
 
 #the time zone, required since PHP7
 define('TIME_ZONE','UTC');

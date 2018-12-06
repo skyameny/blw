@@ -16,9 +16,10 @@ namespace api\model;
  * KEY `index_api_uid` (`api_uid`)
  * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
+use core\model\BlModel;
 use core\model\SystemConfig;
 use think\Model;
-use core\model\BlModel;
+use core\utils\ExLog;
 
 class AccessToken extends BlModel
 {
@@ -73,12 +74,13 @@ class AccessToken extends BlModel
     public function status()
     {
         $expiry_time = $this->getAttr("expiry_time");
+        ExLog::log("过期时间：".$expiry_time."有效时间：".($expiry_time + $this->token_duration_time),ExLog::DEBUG);
         if ($expiry_time > NOW_TIME) {
             return self::TOKEN_STATUS_NORMAL; 
-        } elseif ($expiry_time >  NOW_TIME 
-            && $expiry_time <  NOW_TIME + $this->token_duration_time) {
+        } elseif ($expiry_time <  NOW_TIME 
+            && ($expiry_time + $this->token_duration_time) > NOW_TIME ) {
             return self::TOKEN_STATUS_RESERVED;
-        } else {
+        } else { 
             return self::TOKEN_STATUS_EXPIRED;
         }
     }
