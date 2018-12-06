@@ -4,7 +4,7 @@
  * 管理管理
  * @author Dream<1015617245@qq.com>
  */
-namespace app\admin\controller;
+namespace app\bladmin\controller;
 
 use core\controller\Admin;
 use core\controller\tool\ApiPagination;

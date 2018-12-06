@@ -179,11 +179,11 @@ class Rbac extends  Admin
     public function  authorize()
     {
         $discribe = [
-            "admin/rbac"=>"配置系统用户的行为，建议只有超级管理员拥有。",
-            "admin/system"=>"配置系统的各种行为，建议只有超级管理员拥有。",
-            "admin/garden"=>"控制社区运行的行为，可以管理社区的一切行为。",
-            "admin/operate"=>"控制网站运行的行为，可以管理系统运营的一切行为。",
-            "admin/test"=>"控制社区运行的行为，可以管理社区的一切行为。",
+            "bladmin/rbac"=>"配置系统用户的行为，建议只有超级管理员拥有。",
+            "bladmin/system"=>"配置系统的各种行为，建议只有超级管理员拥有。",
+            "bladmin/garden"=>"控制社区运行的行为，可以管理社区的一切行为。",
+            "bladmin/operate"=>"控制网站运行的行为，可以管理系统运营的一切行为。",
+            "bladmin/test"=>"控制社区运行的行为，可以管理社区的一切行为。",
         ];
         $menus = AuthRule::getAllAuth();
         foreach ($menus as $key => $menu){

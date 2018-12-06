@@ -2,7 +2,7 @@
 /**
  * 系统管理员
  */
-namespace app\admin\controller;
+namespace app\bladmin\controller;
 
 use core\controller\Admin;
 

@@ -20,7 +20,7 @@ class SystemService extends Service
      */
     public function log($garden,$user,$message,$level="1")
     {
-         //$db = helpersEnterprise::getEnterpriseDb($admin->getAttr("eid"));
+         //$db = helpersEnterprise::getEnterpriseDb($bladmin->getAttr("eid"));
          $r_data = [];
          $r_data["gid"] = (is_null($garden))?0:$garden->getAttr("id");
          $r_data["account"] = $user->getAttr("id");

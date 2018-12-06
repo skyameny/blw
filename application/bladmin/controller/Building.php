@@ -9,12 +9,12 @@
  * @Desc         : 项目描述
  * -------------------------------------------------------------------------------------------
 */
-namespace  app\admin\controller;
+namespace  app\bladmin\controller;
 
 use core\controller\Admin;
 use core\controller\tool\ApiPagination;
 use core\service\ServiceManagement;
-use app\admin\validate\BuildingValidate;
+use app\bladmin\validate\BuildingValidate;
 
 class Building extends Admin
 {

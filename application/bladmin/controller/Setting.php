@@ -1,7 +1,7 @@
 <?php
 /**
  * 系统->设置
- * /admin/setting/config
+ * /bladmin/setting/config
  */
 namespace app\admin\controller;
 

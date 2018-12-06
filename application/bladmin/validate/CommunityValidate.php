@@ -3,7 +3,7 @@
  * 验证器
  * @author Dream<hukaijun@emicnet.com>
  */
-namespace app\admin\validate;
+namespace app\bladmin\validate;
 
 class CommunityValidate extends BlAdminValidate
 {

@@ -10,7 +10,7 @@
  +-------------------------------------------------------------------------------------------
 */
 
-namespace app\admin\controller;
+namespace app\bladmin\controller;
 
 use core\controller\Admin;
 use core\service\UserService;

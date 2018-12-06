@@ -5,12 +5,12 @@
  * ::getBuilding 获取社区楼盘
  * ::get
  */
-namespace app\admin\controller;
+namespace app\bladmin\controller;
 
 use core\controller\tool\ApiPagination;
 use community\service\CommunityService;
 use community\model\Community as CommunityModel;
-use app\admin\validate\CommunityValidate;
+use app\bladmin\validate\CommunityValidate;
 use core\controller\Admin;
 
 class Community extends Admin
