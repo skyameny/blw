@@ -17,7 +17,6 @@ class Member extends Account
     /**
      * 首页 业主列表
      */
-    
     public function index()
     {
         $page = $this->request->param("page");

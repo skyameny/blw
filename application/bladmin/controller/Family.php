@@ -14,7 +14,7 @@ namespace app\bladmin\controller;
 use core\controller\Admin;
 use core\controller\tool\ApiPagination;
 use core\service\ServiceManagement;
-use app\admin\validate\CommunityValidate;
+use app\bladmin\validate\CommunityValidate;
 
 class Family extends Admin
 {

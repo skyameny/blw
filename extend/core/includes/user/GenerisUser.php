@@ -49,7 +49,7 @@ class GenerisUser implements User
     
     /**
      * 
-     * @return \core\models\User|NULL
+     * @return \core\model\User|NULL
      */
     public function getUserResource()
     {

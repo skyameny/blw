@@ -54,7 +54,7 @@ abstract class Service {
     public static function getServiceByName($serviceName) {
         $returnValue = null;
         
-        $className = (!class_exists($serviceName) || !preg_match("/^(core|common)/", $serviceName)) ? sprintf(self::namePattern, ucfirst(strtolower($serviceName))) : $serviceName;
+        $className = (!class_exists($serviceName) || !preg_match("/^(core|identify)/", $serviceName)) ? sprintf(self::namePattern, ucfirst(strtolower($serviceName))) : $serviceName;
         
         if (!class_exists($className)) {
             throw new CommonException('Tried to init abstract class ' . $className);
@@ -64,7 +64,7 @@ abstract class Service {
             throw new commonException('Tried to init abstract class ' . $className . ' for param \'' . $serviceName . '\'');
         }
         if (!$class->isSubclassOf('Service')) {
-            throw new commonException("$className must referr to a class extending the Service");
+            throw new commonException("$className must refer to a class extending the Service");
         }
         if (!isset(self::$instances[$className])) {
             self::$instances[$className] = new $className();

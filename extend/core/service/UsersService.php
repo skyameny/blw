@@ -5,15 +5,15 @@
 namespace core\service;
 
 
-use core\models\BlModel;
-use core\models\User;
+use core\model\BlModel;
+use core\model\User;
 use core\exception\UserException;
 use core\includes\user\UsersManagement;
 use core\exception\CommonException;
 use core\includes\session\SessionManagement;
 use think\Db;
 use core\utils\ExLog;
-use core\models\Role;
+use core\model\Role;
 use core\exception\PasswordException;
 use core\includes\helper\HelperPassword;
 
@@ -190,8 +190,14 @@ public function setPassword( BlModel $user, $password)
     if(!is_string($password)){
         throw new UserException('The password must be of "string" type, got '.gettype($password));
     }
-    
-    $user->editPropertyValues(new core_kernel_classes_Property(PROPERTY_USER_PASSWORD),core_kernel_users_Service::getPasswordHash()->encrypt($password));
+
+    $result = HelperPassword::validate($password);
+    if($result === true)
+    {
+        $user->setAttr("password",usersService::getPasswordHash()->encrypt($password));
+        $user->save();
+    }
+
 }
 
 /**

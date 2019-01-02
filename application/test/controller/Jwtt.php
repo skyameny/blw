@@ -41,8 +41,6 @@ class Jwtt extends  Controller
         $builder->sign($signer, '签名key');
         // 获取生成的token
         $token = $builder->getToken();
-
         var_dump($token);
-        
     }
 }

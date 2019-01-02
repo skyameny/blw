@@ -8,7 +8,7 @@ use core\controller\tool\EncryptionAttribute;
 use api\service\ApiUserService;
 use api\exception\TokenWillBeExpiredException;
 use api\validate\ApiValidate;
-use community\model\Garden;
+use community\model\Community;
 
 class Api extends Base
 {
@@ -86,7 +86,7 @@ class Api extends Base
             return null;
         }
         if(is_null(self::$garden)){
-            self::$garden = Garden::get(API_ENTERPRISE_ID);
+            self::$garden = Community::get(API_ENTERPRISE_ID);
         }
         return self::$garden;
     }

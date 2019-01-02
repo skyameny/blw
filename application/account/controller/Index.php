@@ -5,6 +5,8 @@
  */
 namespace app\account\controller;
 use core\controller\Account;
+use core\exception\PasswordException;
+use core\includes\helper\HelperPassword;
 use think\Config;
 use core\includes\session\SessionManagement;
 use core\service\UserService;
@@ -56,6 +58,27 @@ class Index extends Account
         $this->log("退出系统");
         SessionManagement::endSession();
         $this->result("");
+    }
+
+    /**
+     * 重置密码
+     */
+    public function reset_password()
+    {
+        $origin_password = $this->request->param("origin_password");
+        $password = $this->request->param("password");
+        $userModel = UserService::singleton()->getCurrentUser();
+        if(!UserService::singleton()->isPasswordValid($origin_password,$userModel)){
+            //密码规则不正确
+        }
+        try{
+            UserService::singleton()->setPassword($userModel,$password);
+        }
+        catch (PasswordException $exception){
+            $this->result($exception->getCode(),$exception->getMessage());
+        }
+
+
     }
     
     /**

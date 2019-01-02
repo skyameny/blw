@@ -5,13 +5,11 @@
 namespace app\api\controller;
 
 use core\controller\Api;
-use core\controller\tool\EncryptionAttribute;
 use core\service\ApiService;
 
 class Passport extends Api
 {
-    use EncryptionAttribute;
-    
+
     protected $validate = "app\\api\\validate\\ApiValidate";
     
     protected  $no_auth_action =["token"];
