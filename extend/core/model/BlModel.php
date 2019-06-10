@@ -22,9 +22,8 @@ abstract class BlModel extends Model
 
     /**
      * 查找对象
-     * 
-     * @param array $map
-     * @return boolean|\think\static[]|\think\false
+     * @param array $condition
+     * @return array|mixed
      */
     public function searchInstances($condition = [])
     {

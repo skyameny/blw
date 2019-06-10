@@ -7,11 +7,11 @@
  */
 namespace core\includes\user;
 
-use core\model\User as UserModel;
-use core\model\Garden;
+use authority\includes\user\IdentifyUser;
+use authority\model\User as UserModel;
 use think\Config;
 
-class GenerisUser implements User
+class GenerisUser implements IdentifyUser
 {
 
     protected $roles = array();

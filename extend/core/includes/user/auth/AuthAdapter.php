@@ -4,8 +4,7 @@
  */
 namespace core\includes\user\auth;
 
-use core\service\UsersService;
-use core\exception\AuthFailedException;
+use core\service\UserService;
 use core\includes\user\GenerisUser;
 use core\model\User as UserModel;
 
@@ -13,7 +12,7 @@ use core\model\User as UserModel;
 class AuthAdapter implements LoginAdapter
 {
     public static function getPasswordHash() {
-        return UsersService::getPasswordHash();
+        return UserService::getPasswordHash();
     }
     
     /**
@@ -62,7 +61,7 @@ class AuthAdapter implements LoginAdapter
     	    throw new AuthFailedException("Multiple Users found with the same login '".$this->username."'.");
     	}
         if (empty($users)){
-            if (!UsersService::getPasswordHash()->verify($this->password, "")) {
+            if (!UserService::getPasswordHash()->verify($this->password, "")) {
                 throw new AuthFailedException('Unknown user "'.$this->username.'"');
             }
             // should never happen, added for integrity
@@ -71,7 +70,7 @@ class AuthAdapter implements LoginAdapter
     	
 	    $userResource = current($users);
 	    $hash = $userResource->getAttr("passwd");
-	    if (!UsersService::getPasswordHash()->verify($this->password, $hash)) {
+	    if (!UserService::getPasswordHash()->verify($this->password, $hash)) {
 	        throw new AuthFailedException("Invalid password for user '".$this->username.'"');
 	    }
 	    

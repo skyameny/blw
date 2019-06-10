@@ -13,17 +13,17 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    //'hostname'        => 'bdm261502180.my3w.com',//'bdm261502180.my3w.com',//127.0.0.1
-    'hostname'        => 'localhost',//'bdm261502180.my3w.com',//127.0.0.1
+    'hostname'        => 'bdm261502180.my3w.com',//'bdm261502180.my3w.com',//127.0.0.1
+    //'hostname'        => 'localhost',//'bdm261502180.my3w.com',//127.0.0.1
     // 数据库名
-    //'database'        => 'bdm261502180_db',
-    'database'        => 'bl',
+    'database'        => 'bdm261502180_db',
+    //'database'        => 'bl',
     // 用户名
-    //'username'        => 'bdm261502180',
-    'username'        => 'root',
+    'username'        => 'bdm261502180',
+    //'username'        => 'root',
     // 密码
-    //'password'        => 'Banglin123456',
-    'password'        => 'root',
+    'password'        => 'Bl.com123',
+    //'password'        => 'root',
     // 端口
     'port'        => '3306',
     // 连接dsn

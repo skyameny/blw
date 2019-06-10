@@ -20,7 +20,7 @@
         "topthink/framework": "5.0.22",
         "topthink/think-image": "^1.0",
         "topthink/think-captcha": "^1.0",
-        "lcobucci/jwt": "^3.2"
+        "lcobucci/jwt": "^3.3"
     },
     "autoload": {
         "psr-4": {

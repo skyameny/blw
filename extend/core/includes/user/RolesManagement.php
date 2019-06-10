@@ -4,46 +4,52 @@
  * 角色管理
  */
 namespace core\includes\user;
-
-use core\models\BlModel;
+use think\model;
 
 interface RolesManagement
 {
     /**
      * 添加角色
+     * @param $title
+     * @param string $description
+     * @param int $eid
+     * @param int $type
+     * @return mixed
      */
-    public function addRole($label, $includedRoles = null, BlModel $class = null);
+    public function addRole($title, $description="", $eid=0,$type=1);
 
     /**
      * 删除角色
-     * @param core_kernel_classes_Resource $role
+     * @param Model $role
+     * @return bool
      */
-    public function removeRole(BlModel $role);
+    public function removeRole(Model $role);
 
     /**
-     * 
-     * @param core_kernel_classes_Resource $role
+     * 获取子角色   无效实现
+     * @param model $role
+     * @return mixed
      */
-    public function getIncludedRoles(BlModel $role);
+    #public function getIncludedRoles(Model $role);
 
     /**
-     * 角色
-     * @param core_kernel_classes_Resource $role
-     * @param core_kernel_classes_Resource $roleToInclude
+     * 创建子角色
+     * @param model $role
+     * @param array $roleToInclude
+     * @return mixed
      */
-    public function includeRole(BlModel $role, array $roleToInclude);
-    
+    #public function includeRole(Model $role, array $roleToInclude);
+
     /**
-     * Uninclude a Role from another Role.
-     * 
+     * 解除子角色
+     *
      */
-    public function unincludeRole(BlModel $role,  $roleToUninclude);
-    
+    #public function unincludeRole(Model $role,  $roleToUninclude);
+
     /**
-     * 获取角色
+     * 获取全部角色
      */
     public function getAllRoles();
 
 }
-
-?>
+/** end  role */

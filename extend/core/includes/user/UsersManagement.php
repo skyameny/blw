@@ -1,91 +1,113 @@
 <?php
 namespace core\includes\user;
 
-use core\model\BlModel;
+use  think\model;
+use  core\model\User as UserModel;
 
 interface UsersManagement
 {
-    
+    /**
+     * 是否存在用户名
+     *
+     * @param $login
+     * @param model|null $class
+     * @return mixed
+     */
+    public function loginExists($login,  Model $class = null);
 
-    public function loginExists($login,  BlModel $class = null);
-    
     /**
-     * 
-     * @param unknown $login
-     * @param unknown $password
-     * @param BlModel $role
+     * 添加用户
+     * @param array $user_data
+     * @param model|null $role
+     * @return mixed
      */
-    public function addUser($user_data,  BlModel $role = null);
-    
+    public function addUser($user_data,  Model $role = null);
+
     /**
-     * 
-     * @param BlModel $user
+     * 删除用户
+     * @param Model $user
      */
-    public function removeUser( BlModel $user);
-    
+    public function removeUser(Model $user);
+
     /**
-     * 
-     * @param unknown $login
-     * @param BlModel $class
+     * 根据用户名查找用户
+     * @param  $login
+     * @param UserModel $class
      */
-    public function getOneUser($login,  BlModel $class = null);
-    
+    public function getOneUser($login,  Model $class = null);
+
     /**
-     * 
+     * 禁止
+     * @param model $user
+     * @return mixed
+     */
+    public function disable(Model $user);
+
+    /**
+     * 允许
+     * @param model $user
+     * @return mixed
+     */
+    public function enable(Model $user);
+
+    /**
+     * 是否使用session登录
      */
     public function isASessionOpened();
-    
+
     /**
-     * 
-     * @param unknown $password
-     * @param BlModel $user
+     * 密码是否正确
+     * @param  $password
+     * @param Model $user
      */
-    public function isPasswordValid($password,  BlModel $user);
-    
+    public function isPasswordValid($password,  Model $user);
+
     /**
-     * 
-     * @param BlModel $user
-     * @param unknown $password
+     * 设置密码
+     * @param Model $user
+     * @param  $password
      */
-    public function setPassword( BlModel $user, $password);
-    
+    public function setPassword( Model $user, $password);
+
     /**
-     * 
-     * @param BlModel $user
+     * 获取用户的角色
+     * @param Model $user
      */
-    public function getUserRoles( BlModel $user);
-    
+    public function getUserRoles( Model $user);
+
     /**
-     * 
-     * @param BlModel $user
-     * @param unknown $roles
+     * 是否含有角色
+     * @param Model $user
+     * @param  $role
      */
-    public function userHasRoles( BlModel $user, $roles);
-    
+    public function userHasRoles( Model $user, $role);
+
     /**
-     * 
-     * @param BlModel $user
-     * @param BlModel $role
+     * 绑定角色
+     * @param UserModel $user
+     * @param Model $role
      */
-    public function attachRole( BlModel $user,  BlModel $role);
-    
+    public function attachRole( UserModel $user,  Model $role);
+
     /**
-     * 
-     * @param BlModel $user
-     * @param BlModel $role
+     * 解除绑定角色
+     * @param Model $user
+     * @param Model $role
      */
-    public function unnatachRole( BlModel $user,  BlModel $role);
-    
+    public function unnatachRole( Model $user,  Model $role);
+
     /**
-     * 
+     * 获取该用户可用的角色
      */
     public function getAllowedRoles();
-    
+
     /**
-     * 
+     * 获取默认觉得
      */
     public function getDefaultRole();
-    
-} /* end of interface core_kernel_users_UsersManagement */
 
-?>
+}
+
+/**
+ * end  UsersManagement
+ */

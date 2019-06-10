@@ -252,7 +252,7 @@ $configs =  [
     ],
     //扩展模块
     "bl_extend_modules" =>[
-        "core","community"
+        "core","community","authority"
     ],
 ];
 

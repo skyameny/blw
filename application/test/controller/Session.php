@@ -10,6 +10,7 @@ class Session extends Controller
     
     public function Index()
     {
+        exit("dede");
         var_dump(SessionManagement::getSession());
     }
 }

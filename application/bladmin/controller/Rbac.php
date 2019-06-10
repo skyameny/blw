@@ -8,7 +8,7 @@ use core\controller\Admin;
 use core\model\Role;
 use core\utils\ExLog;
 use core\exception\RoleException;
-use core\service\UsersService;
+use core\service\UserService;
 use core\model\User;
 use core\exception\UserException;
 use core\service\AuthService;
@@ -89,7 +89,7 @@ class Rbac extends  Admin
         }
         //删除DB
         try {
-            UsersService::singleton()->removeRole($role);
+            UserService::singleton()->removeRole($role);
         } catch (RoleException $e) {
             ExLog::log("Role remove failed:".$e->getMessage());
             $this->result("",ROLE_REMOVE_FAILED,"删除失败");
@@ -134,7 +134,7 @@ class Rbac extends  Admin
         $rquestData = $this->request->param();
         $role  = Role::get($this->request->param("user_role"));
         try {
-            $result = UsersService::singleton()->addUser($rquestData,$role);
+            $result = UserService::singleton()->addUser($rquestData,$role);
         } catch (UserException $e) {
             ExLog::log("添加用户失败：".$e->getMessage(),ExLog::DEBUG);
             $this->result("",$e->getCode(),$e->getMessage());
@@ -159,7 +159,7 @@ class Rbac extends  Admin
         }
         //删除DB
         try {
-            UsersService::singleton()->removeUser($user);
+            UserService::singleton()->removeUser($user);
         } catch (RoleException $e) {
             ExLog::log("Role remove failed:".$e->getMessage());
             $this->result("",ROLE_REMOVE_FAILED,"删除失败");

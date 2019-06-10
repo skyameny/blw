@@ -4,6 +4,7 @@
  */
 namespace core\controller;
 
+use authority\service\IdentifyService;
 use think\Controller;
 use core\controller\tool\Authentication;
 use core\includes\session\SessionManagement;
@@ -37,14 +38,11 @@ class Admin extends Frame
     public function _initialize()
     {
         parent::_initialize();
+        $identify = IdentifyService::singleton();
         // 验证用户是否是超级管理员
-        $user_type = SessionManagement::getSession()->getUserPropertyValues("type");
+        $user_type = $identify->getIdentifyUser()->getPropertyValues("type");
         if ($user_type !== User::ADMIN_USER_TYPE) {
             $this->result("", STATUS_CODE_AUTH_FAILED);
-        }
-        
-        if (! $this->verification()) {
-            $this->result("", STATUS_CODE_PERMISSION_DEND);
         }
     }
 

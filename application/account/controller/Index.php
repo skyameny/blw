@@ -6,7 +6,6 @@
 namespace app\account\controller;
 use core\controller\Account;
 use core\exception\PasswordException;
-use core\includes\helper\HelperPassword;
 use think\Config;
 use core\includes\session\SessionManagement;
 use core\service\UserService;

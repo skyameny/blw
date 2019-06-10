@@ -16,6 +16,7 @@ class Passport extends Api
 
     /**
      * 验证登录信息
+     * auth?mobile=null&type=0&password=123456&username=admin
      */
     public function auth()
     {

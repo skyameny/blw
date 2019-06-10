@@ -37,9 +37,9 @@ abstract class Service {
      * @return mixed
      */
     protected function __construct() {
-        
-        
+
     }
+
     
     /**
      *
@@ -80,7 +80,7 @@ abstract class Service {
      * 单例
      * @access public
      * @author Dream<hukaijun@emicnet.com>
-     * @return $this
+     * @return mixed
      */
     public static function singleton() {
         $returnValue = null;

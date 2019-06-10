@@ -19,6 +19,7 @@ $returnCommands = [
     'app\cli\command\NlpWork',
     'app\cli\command\Config',
     'app\cli\command\Service',
+    'app\cli\command\Kafka'
 ];
 foreach ($apps as $app) {
     $commandFile = APP_PATH . $app . '/command.php';

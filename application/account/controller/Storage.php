@@ -20,8 +20,9 @@ class Storage extends Account
     {
         if (SessionManagement::isAnonymous()) {
             $this->checkRequest();
-            $account = $this->request->param("username");
-            $pwd = $this->request->param("passwd");
+            $account = $this->request->param("userName");
+            $pwd = $this->request->param("password");
+            $type = $this->request->param("type");
             $captcha = $this->request->param("captcha");
             $result = UserService::singleton()->loginUser($account, $pwd);
             $userid = SessionManagement::getSession()->getUserPropertyValues("id");
@@ -48,5 +49,10 @@ class Storage extends Account
         $this->log("退出系统");
         SessionManagement::endSession();
         $this->result("");
+    }
+
+    public function test()
+    {
+        echo "Heool";
     }
 }

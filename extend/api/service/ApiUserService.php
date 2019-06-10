@@ -43,7 +43,7 @@ class ApiUserService extends Service
      * @param string $access_token            
      * @return bool
      */
-    public function validateAuth($access_token):bool
+    public function validateAuth($access_token)
     {
         $api_user = ApiUser::hasWhere('access_token', ["access_token" => $access_token])->order("id desc")->find();
 
