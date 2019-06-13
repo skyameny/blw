@@ -16,6 +16,14 @@ use core\includes\helper\HelperTime;
 
 class ApiService extends Service
 {
+    const HEADER_NAME_COMMUNITY_ID = "auth-community";
+    const HEADER_NAME_ACCESS_TOKEN = "";
+    const HEADER_NAME_MEMBER_MID = "";
+
+
+
+
+
     private static $enterprise = null;
     /**
      * 获取token

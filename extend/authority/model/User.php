@@ -17,6 +17,8 @@ class User extends BlModel
     #不可用状态
     const STATUS_DISABLE = 0;
 
+    protected $likeColumn = ["nickname"];
+
     public function roles()
     {
         return $this->belongsToMany('Role');

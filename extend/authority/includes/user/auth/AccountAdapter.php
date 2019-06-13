@@ -12,10 +12,21 @@ use core\utils\ExLog;
 
 class AccountAdapter extends CommonAdapter
 {
+
+    /**
+     * @var UserService
+     */
+    protected $userService;
+
     public function getPasswordHash()
     {
         $this->userService = UserService::singleton();
         return $this->userService->getPasswordHash();
+    }
+
+    public function __construct()
+    {
+        $this->userService = UserService::singleton();
     }
 
     /**

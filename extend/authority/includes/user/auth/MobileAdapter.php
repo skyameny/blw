@@ -27,7 +27,7 @@ class MobileAdapter extends CommonAdapter
         $this->mobile = $params['mobile'];
         $this->vcode = $params['vcode'];
         $identifyUser = $this->verification();
-        self::getStorage()->startStorage($identifyUser);
+        $this->storage->startStorage($identifyUser);
         return true;
     }
     public function checkParams(array $params)

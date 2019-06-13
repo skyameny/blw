@@ -15,7 +15,7 @@ interface IdentifyUser
 
     const ADMIN_TYPE_SUPER = 0;
 
-    const ADMIN_TYPE_GARDAN = 1;
+    const ADMIN_TYPE_GARDEN = 1;
 
     /**
      * Returns the unique identifier of the user
@@ -23,6 +23,8 @@ interface IdentifyUser
      * @return string
      */
     public function getIdentifier();
+
+    public function getUserResource();
 
     /**
      * Extends the users explizit roles with the implizit rules

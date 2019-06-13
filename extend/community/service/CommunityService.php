@@ -14,7 +14,7 @@ class CommunityService extends  Service
      * @param array $condition
      * @return boolean|\think\static[]|\think\false
      */
-    public function searchInstances($condition = [])
+    public function getCommunities($condition = [])
     {
         $sc_model = new Community();
         return $sc_model->searchInstances($condition);

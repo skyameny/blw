@@ -8,11 +8,18 @@ use core\model\BlModel;
 
 class AuthRule extends BlModel
 {
+    const STATUS_DISABLED = 0;
 
-    const STATUS_USEDDISABLED = 0;
+    const STATUS_ENABLED = 1;
 
-    const STATUS_USEDABLED = 1;
-
+    /**
+     * 与actions 多关联
+     * @return \think\model\relation\BelongsToMany
+     */
+    public function authActions()
+    {
+        return $this->belongsToMany("auth_action","auth_rule_action","rule_id");
+    }
     /**
      * 是否属于菜单
      * 
@@ -36,7 +43,7 @@ class AuthRule extends BlModel
      * 获取所有的权限列表
      * 包含关联关系
      */
-    public static function getAllAuth()
+    public static function getAuthTree()
     {
         $returnValue = [];
         $topAuths = self::all(function($query){
@@ -82,8 +89,6 @@ class AuthRule extends BlModel
         }
         return $returnValue;
     }
-    
-    
 
     /**
      * 判断规则是否可用
@@ -132,7 +137,6 @@ class AuthRule extends BlModel
      */
     public function getSonRules($deep = 0)
     {
-        
         $returnValue = [];
         $rules = AuthRule::all([
             "parent_id" => $this->getAttr("id")

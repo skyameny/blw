@@ -1,17 +1,17 @@
 <?php
 /**
  * 用户权限
- * 
+ *
  * 管理员
  * session用户
  */
 namespace authority\includes\user;
 
-use authority\model\User as UserModel;
+use community\model\Member as UserModel;
 use community\model\Community;
-use think\Config;
 
-class GenerisUser implements IdentifyUser
+
+class MemberUser implements IdentifyUser
 {
 
     protected $roles = array();
@@ -25,11 +25,9 @@ class GenerisUser implements IdentifyUser
     protected $cache;
 
     protected $cachedProperties = array(
-            "nickname",
-            "username",
-            "gid",
-            "mobile",
-            "layout",//外观
+        "username",
+        "gid",
+        "mobile",
     );
 
     public function __construct(UserModel $user)
@@ -38,7 +36,7 @@ class GenerisUser implements IdentifyUser
         foreach ($this->cachedProperties as $property){
             $this->getPropertyValues($property);
         }
-        
+
         $this->getPropertyValues("gid");
     }
 
@@ -55,15 +53,14 @@ class GenerisUser implements IdentifyUser
     {
         return UserModel::get($this->getIdentifier());
     }
-    
+
     /**
      * 获取社区信息
      */
-    private function getGardenResource()
+    public function getGardenResource()
     {
-        return Community::get($this->getPropertyValues("cid"));
+        return Community::get($this->getPropertyValues("gid"));
     }
-    
 
     public function getPropertyValues($property)
     {
@@ -76,7 +73,7 @@ class GenerisUser implements IdentifyUser
         return $this->cache[$property];
 
     }
-    
+
     private function getUncached($property)
     {
         $value = array();
@@ -84,38 +81,35 @@ class GenerisUser implements IdentifyUser
             case "gid":
                 return $this->getUserResource()->getGardenId();
                 break;
-            case "layout":
-                return Config::get("default_layout");
-	    	    break;
-	    	default:
-	    	    return $this->getUserResource()->getAttr($property);
-	    }
-	}
-	
-	public function refresh() {
-	    $this->roles = false;
-	    $this->cache = array(
-	        "gdid" => $this->getUncached("gdid")
-	    );
-	    return true;
-	}	
-	
-	/**
-	 * 获取用户角色
-	 * {@inheritDoc}
-	 * @see \core\includes\user\User::getRoles()
-	 */
-	public function getRoles()
-	{
-	    $returnValue = array();
-	    if ( ! $this->roles) {
-	        // We use a Depth First Search approach to flatten the Roles Graph.
-	        foreach ($this->getUserResource()->roles as $role) {
-	            $returnValue[] = $role;
-	        }
-	        $returnValue = array_unique($returnValue);
-	        $this->roles = $returnValue;
-	    }
-	    return $this->roles;
-	}
+            default:
+                return $this->getUserResource()->getAttr($property);
+        }
+    }
+
+    public function refresh() {
+        $this->roles = false;
+        $this->cache = array(
+            "gdid" => $this->getUncached("gdid")
+        );
+        return true;
+    }
+
+    /**
+     * 获取用户角色
+     * {@inheritDoc}
+     * @see \core\includes\user\User::getRoles()
+     */
+    public function getRoles()
+    {
+        $returnValue = array();
+        if ( ! $this->roles) {
+            // We use a Depth First Search approach to flatten the Roles Graph.
+            foreach ($this->getUserResource()->roles as $role) {
+                $returnValue[] = $role;
+            }
+            $returnValue = array_unique($returnValue);
+            $this->roles = $returnValue;
+        }
+        return $this->roles;
+    }
 }

@@ -9,15 +9,18 @@ namespace authority\model;
 
 use core\model\BlModel;
 use think\Db;
-use core\exception\RoleException;
 use core\utils\ExLog;
 
 class Role extends BlModel
 {
     const STATUS_ENABLE =1;
     const STATUS_DISABLE = 0;
-    const EP_ADMIN_ID = 2;
-    
+    const SUPER_ROLE_ID = 1; #系统管理员角色ID
+    const SYSTEM_TYPE = 0; #系统类型
+    const COMMON_TYPE = 1;
+
+    protected $likeColumn = ["name","remark"];
+
     /**
      * 关联的 权限规则
      * @return \think\model\relation\BelongsToMany
@@ -45,14 +48,14 @@ class Role extends BlModel
      */
     public function isSysAdmin()
     {
-        return ($this->getAttr("id") == 1);
+        return ($this->getAttr("id") == self::SUPER_ROLE_ID);
     }
     
     /**
      * 角色名称
      * @return string
      */
-    public function getLable()
+    public function getLabel()
     {
         return $this->getAttr("name");
     }

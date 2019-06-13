@@ -4,6 +4,7 @@
  */
 namespace core\controller;
 
+use authority\service\IdentifyService;
 use core\utils\ExLog;
 use think\Controller;
 use think\exception\HttpResponseException;
@@ -11,7 +12,6 @@ use think\Request;
 use think\Response;
 use think\Config;
 use core\service\ServiceManagement;
-use core\includes\session\SessionManagement;
 use core\exception\CoreException;
 
 abstract class Base extends Controller
@@ -32,6 +32,13 @@ abstract class Base extends Controller
     {
         parent::_initialize();
         $this->request = Request::instance();
+        /*安全*/
+        //启用XSS保护，并在检查到XSS攻击时，停止渲染页面
+        header('X-XSS-Protection: 1;mode=block');
+        //不允许被本域以外的页面嵌入
+        header('X-Frame-Options: SAMEORIGIN');
+        //禁用浏览器的类型猜测
+        header('X-Content-Type-Options: nosniff');
         /*防止跨域*/
         //header('Access-Control-Allow-Origin: '.$_SERVER['HTTP_ORIGIN']);
         //header('Access-Control-Allow-Credentials: true');
@@ -97,7 +104,7 @@ abstract class Base extends Controller
     protected function log($message, $level=1)
     {
         $single = ServiceManagement::singleton()->get(SYSTEM_SERVICE);
-        $user = SessionManagement::getSession()->getUser()->getUserResource();
+        $user = IdentifyService::singleton()->getIdentifyUser();
         $single->log(null,$user,$message,$level);
     }
 
@@ -107,7 +114,7 @@ abstract class Base extends Controller
      */
     protected function logDanger($message)
     {
-        $this->log($message,Log::LOG_LEVEL_DANGER);
+        $this->log($message,ExLog::LOG_LEVEL_DANGER);
     }
 
     /**
@@ -116,6 +123,6 @@ abstract class Base extends Controller
      */
     protected function logWarning($message)
     {
-        $this->log($message,Log::LOG_LEVEL_WARING);
+        $this->log($message,ExLog::LOG_LEVEL_WARING);
     }
 }

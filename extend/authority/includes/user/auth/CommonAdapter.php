@@ -13,22 +13,13 @@ use authority\includes\user\storage\AuthStorage;
 use authority\service\UserService;
 use core\exception\CoreException;
 
-abstract  class CommonAdapter implements Adapter
+abstract class CommonAdapter implements Adapter
 {
     /**
      * 会话机制
      * @var AuthStorage
      */
     protected  $storage;
-    /**
-     * @var UserService
-     */
-    protected $userService;
-
-    public function __construct()
-    {
-        $this->userService = UserService::singleton();
-    }
 
     public  function setStorage(AuthStorage $storage){
         $this->storage = $storage;

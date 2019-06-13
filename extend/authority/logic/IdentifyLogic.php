@@ -8,7 +8,6 @@
 namespace authority\logic;
 
 use authority\exception\AuthFailedException;
-use authority\includes\user\auth\AuthFactory;
 use authority\service\IdentifyService;
 use core\logic\Logic;
 use core\utils\ExLog;
@@ -32,7 +31,6 @@ class IdentifyLogic extends Logic
     public function login($username,$password)
     {
         $this->identifyService = IdentifyService::singleton();
-//        var_dump($this->identifyService->getIdentifyUser());exit;
         $params = [];
         $params["username"] = $username;
         $params["password"] = $password;

@@ -1,12 +1,12 @@
 <?php 
 /*
  +-------------------------------------------------------------------------------------------
- + Title        : 用户管理
+ + Title        : 权限管理
  + Version      : V1.0.0.2
  + Initial-Time : 2018年11月09日
  + @auth Dream <1015617245@qq.com>
  + Last-time    : 2018-11-09
- + Desc         : 用户处理
+ + Desc         : 权限处理
  +-------------------------------------------------------------------------------------------
 */
 
@@ -17,7 +17,7 @@ use authority\logic\UserLogic;
 use core\controller\Admin;
 use core\controller\tool\ApiPagination;
 
-class User extends Admin
+class Rule extends Admin
 {
     use ApiPagination;
 
@@ -34,7 +34,7 @@ class User extends Admin
         parent::_initialize();
     }
 
-    public function getUsers()
+    public function getRule()
     {
         $params = $this->paginationParams();
         $result = $this->logic->getUsersList($params);

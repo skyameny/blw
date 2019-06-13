@@ -59,9 +59,6 @@ defined("STATUS_CODE_SETTING_NOT_EXISTS") or define("STATUS_CODE_SETTING_NOT_EXI
 define('AUTHOR_FAILED', 100110);//鉴权失败
 define('INVALID_TOKEN', 100111);//token 无效
 
-//ip限制
-define("STATUS_CODE_TOO_FREQUENT_OPERATION", 20502);//操作太频繁
-define("STATUS_CODE_TOO_MANY_ATTEMPTS", 20501);//尝试次数太多
 //207:短信验证码
 define("STATUS_CODE_OVER_MAX_LIMIT_SEND_CODE", 20701);// 超过短信验证码最大限制
 define("STATUS_CODE_SEND_VCODE_FAILED", 20702);// 短信发送失败

@@ -5,10 +5,9 @@ $community_config = [
     "community_extend_info" => [
         "extend_name" =>"community",
         "version"=>"1.0.0",
-        "company"=>"东南科技"
+        "company"=>"东南科技",
+
     ],
 ];
 
 return $community_config;
-
-?>

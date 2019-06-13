@@ -10,7 +10,12 @@ class AnonymousUser implements IdentifyUser
     public function getIdentifier() {
         return null;
     }
-    
+
+    public function getUserResource()
+    {
+        return null;
+    }
+
     /**
      * (non-PHPdoc)
      * @see \oat\oatbox\user\User::getRoles()

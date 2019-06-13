@@ -8,6 +8,7 @@
 namespace authority\logic;
 
 use authority\exception\RoleException;
+use authority\service\IdentifyService;
 use authority\service\RoleService;
 use core\logic\Logic;
 
@@ -18,18 +19,34 @@ class RoleLogic extends Logic
      */
     protected $roleService;
 
+    public function getGarden()
+    {
+        $identifyUser = IdentifyService::singleton()->getIdentifyUser();
+        $garden = $identifyUser->getGardenResource();
+    }
 
+
+    public function getRolesByParams($params)
+    {
+        $this->roleService = RoleService::singleton();
+        $result = $this->roleService->getRoles($params);
+        return $result;
+    }
     /**
      * 添加角色
      */
-    public function addRole($name,$remark)
+    public function addRole($name,$remark,$auth_ids)
     {
-        $gid = 0;#$this->getGid();
+        $gid = 0;
         $this->roleService = RoleService::singleton();
         $role = $this->roleService->addRole($name,$remark,$gid);
         $this->roleService->disableRole($role);
         return true;
     }
+
+
+
+
 
     public function editRole($rid,$name,$remark)
     {

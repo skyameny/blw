@@ -10,5 +10,4 @@ use core\exception\CoreException;
 class UserException extends CoreException
 {
     protected $status_code = STATUS_CODE_USER_FAILED;
-    
 }

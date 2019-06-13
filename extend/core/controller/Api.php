@@ -4,6 +4,8 @@
  */
 namespace core\controller;
 
+use authority\includes\user\storage\JwtAuthStorage;
+use authority\service\IdentifyService;
 use core\controller\tool\EncryptionAttribute;
 use api\service\ApiUserService;
 use api\exception\TokenWillBeExpiredException;
@@ -19,6 +21,11 @@ class Api extends Base
     protected $token_expired_prompt = 0; //token即将过去提示错误码
     
     protected $validate = ApiValidate::class;
+    /**
+     * @var IdentifyService
+     */
+    protected $identifyService ;
+
     protected $no_auth_action = []; //全小写
     
     protected $client_type = CLIENT_APP;
@@ -40,9 +47,13 @@ class Api extends Base
     //检查权限
     protected function authorize()
     {
+        $this->identifyService = IdentifyService::singleton();
+        $this->identifyService->setStorage(new JwtAuthStorage());
         $current_action = $this->request->action();
         if(!in_array($current_action, $this->no_auth_action))
         {
+            $this->identifyService->getIdentifyUser();
+
             $access_token = $this->request->param("access_token");
             $api_user_service = ApiUserService::singleton();
             try {

@@ -14,6 +14,8 @@ namespace app\test\controller;
 use identify\Controller\Jwt;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Signer\Key;
 use think\Controller;
 
 include VENDOR_PATH."/autoload.php";
@@ -67,4 +69,38 @@ class Jwtt extends  Controller
         echo $token; // The string representation of the object is a JWT string (pretty easy, right?)
 
     }
+
+
+    function t2()
+    {
+        $signer = new Sha256();
+        $time = time();
+
+        $token = (new Builder())->issuedBy('http://example.com') // Configures the issuer (iss claim)
+        ->permittedFor('http://example.org') // Configures the audience (aud claim)
+        ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
+        ->issuedAt($time) // Configures the time that the token was issue (iat claim)
+        ->canOnlyBeUsedAfter($time + 60) // Configures the time that the token can be used (nbf claim)
+        ->expiresAt($time + 3600) // Configures the expiration time of the token (exp claim)
+        ->withClaim('uid', 1) // Configures a new claim, called "uid"
+        ->getToken($signer, new Key('testing')); // Retrieves the generated token
+
+
+        var_dump($token->verify($signer, 'testing 1')); // false, because the key is different
+        var_dump($token->verify($signer, 'testing')); // true, because the key is the same
+    }
+
+    function parse()
+    {
+        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImp0aSI6ImtlZXB3aW4xMDAifQ.eyJpc3MiOiJodHRwOlwvXC93d3cuYmx3LmNvbSIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUub3JnIiwianRpIjoia2VlcHdpbjEwMCIsImlhdCI6MTU2MDM5MDAwMCwibmJmIjoxNTYwMzkwMDYwLCJleHAiOjE1NjA0NzY0MDAsInVpZCI6MX0.mrv1kpB9';
+        $token = (new Parser())->parse((string) $token); // Parses from a string
+        $token->getHeaders(); // Retrieves the token header
+        $token->getClaims(); // Retrieves the token claims
+
+        echo $token->getHeader('jti'); // will print "4f1g23a12aa"
+        echo $token->getClaim('iss'); // will print "http://example.com"
+        echo $token->getClaim('uid'); // will print "1"
+    }
+
+
 }

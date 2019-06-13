@@ -14,6 +14,8 @@ use authority\model\Role;
 use authority\model\User;
 use core\service\Service;
 use core\utils\ExLog;
+use core\validate\BlValidate;
+use think\Db;
 use think\model;
 
 class UserService extends Service  implements UserManagement
@@ -50,6 +52,17 @@ class UserService extends Service  implements UserManagement
     }
 
     /**
+     * 设置头像
+     * @param User $user
+     * @param $avatar
+     * @return false|int
+     */
+    public function setAvatar(User $user,$avatar)
+    {
+        return $user->save(["avatar"=>$avatar]);
+    }
+
+    /**
      * @param $username
      * @param $pwd
      * @param $mobile
@@ -82,8 +95,81 @@ class UserService extends Service  implements UserManagement
     }
 
     /**
+     * 修改用户
+     * 只能更换 nickname mobile telphone password
+     * @param User $user
+     * @param $data
+     * @return bool
+     * @throws UserException
+     * @throws \Throwable
+     */
+    public function modifyUser(User $user, $data)
+    {
+        $saveData = [];
+        if (empty($data)) {
+            throw new UserException(STATUS_CODE_USER_MODIFY_FAILED);
+        }
+        if (isset($data["mobile"])) {
+            if ($data["mobile"] != $user->getAttr("mobile")
+                && $this->mobileExists($data["mobile"])) {
+                throw new UserException(STATUS_CODE_MOBILE_EXITS);
+            }
+            $saveData["mobile"] = $data["mobile"];
+        }
+        if (isset($data["nickname"])) {
+            $saveData["nickname"] = $data["nickname"];
+        }
+        if (isset($data["telphone"])) {
+            $saveData["telphone"] = $data["telphone"];
+        }
+        if(isset($data["password"])){
+            if(!BlValidate::isPassword($data["password"])){
+                throw  new  UserException(STATUS_CODE_NONSTANDARD_PASSWORD);
+            }
+            $saveData["password"] = $this->getPasswordHash()->encrypt($data["password"]);
+        }
+        Db::startTrans();
+        try {
+            $flag = $user->isUpdate(true)->save($saveData);
+            if ($flag === false) {
+                throw new UserException(STATUS_CODE_USER_MODIFY_FAILED);
+            }
+            #角色操作
+            if (isset($data["roles"])) {
+                $role_service = RoleService::singleton();
+                $currentRoles = $user->roles;
+                #已经记录的role_ids
+                $tpis_roleids = [];
+                foreach ($currentRoles as $c_role) {
+                    if (!in_array($c_role->getAttr("id"), $data["roles"])) {
+                        $this->unAttachRole($user, $c_role);
+                    } else {
+                        $tpis_roleids[] = $c_role->getAttr("id");
+                    }
+                }
+                foreach ($data["roles"] as $n_roleid) {
+                    if (!in_array($n_roleid, $tpis_roleids)) {
+                        $role = $role_service->getRoles(["id" => $n_roleid]);
+                        if (empty($role)) {
+                            //不存在的角色ID
+                            throw new UserException(STATUS_CODE_ROLE_NOT_EXISTS);
+                        }
+                        $this->attachRole($user, current($role));
+                    }
+                }
+            }
+            Db::commit();
+        } catch (\Throwable $e) {
+            ExLog::log("角色配置失败正在回滚[" . $e->getCode() . "]");
+            Db::rollback();
+            throw $e;
+        }
+        return true;
+    }
+
+    /**
      * 禁用
-     * @param model $user
+     * @param User $user
      * @return false|int|mixed
      */
     public function disableUser(User $user)
@@ -93,7 +179,7 @@ class UserService extends Service  implements UserManagement
 
     /**
      * 启用
-     * @param model $user
+     * @param User $user
      * @return false|int|mixed
      */
     public function enableUser(User $user)
@@ -171,7 +257,16 @@ class UserService extends Service  implements UserManagement
         }catch (PasswordException $e){
             return false;
         }
-        return $user->save(["passwd"=>$passwordHash]);
+        return $user->isUpdate(true)->save(["passwd"=>$passwordHash]);
+    }
+
+    public function setMobile(User $user, $mobile)
+    {
+        if ($mobile != $user->getAttr("mobile")
+            && $this->mobileExists($mobile)) {
+            throw new UserException(STATUS_CODE_MOBILE_EXITS);
+        }
+        $user->isUpdate(true)->save(["mobile"=>$mobile]);
     }
 
     public function getUserRoles(User $user)
@@ -201,7 +296,7 @@ class UserService extends Service  implements UserManagement
     }
 
     public function isAdmin(User $user){
-        return $user->getAttr("type") ==0;
+        return $user->getAttr("type") == 0;
     }
 
 }

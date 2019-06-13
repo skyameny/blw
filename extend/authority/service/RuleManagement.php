@@ -36,7 +36,7 @@ interface RuleManagement
      * @param bool $show_disable
      * @return mixed
      */
-    public function getAllRule(Role $role,$show_disable=false);
+    public function getRules($params);
 
     /**
      * 判断是否具有该权限

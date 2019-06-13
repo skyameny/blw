@@ -1,39 +1,56 @@
 <?php 
 /**
 * 模块常量定义
-* @date: 2018年10月10日 下午2:37:21
-* @author: wangjingfu@emicnet.com
-* core:1 identity:2 oc:3 aicall:4 aicallup:5 ops:6
 */
-
-
 ### 常量定义
 define('DEFAULT_AGENT_ROLE_ID', 2); //默认代理的角色ID
-//代码底层错误 Rbac
+
+//Authority模块通用错误
 define("STATUS_CODE_USER_FAILED", 100100);//用户错误
+define("STATUS_CODE_USER_NOT_EXITS", 100101);//用户不存在
 define('STATUS_CODE_AUTH_FAILED', 100201);//用户鉴权失败
-define('STATUS_CODE_SESSION_TIMEOUT', 100202);//登录session过期
-define("STATUS_CODE_LOGIN_EXITS", 100102);//用户名已经存在
+define('STATUS_CODE_SESSION_TIMEOUT', 100202);//退出登录状态
+
+#用户错误
+#注册&登录 1001
+define("STATUS_CODE_LOGIN_MUST_REQUIRE", 100102);//用户名不能为空
 define("STATUS_CODE_USER_ADD_FAILED", 100103);//用户添加失败
 define("STATUS_CODE_LOGIN_FAILED", 100104);//用户名密码错误
-define("STATUS_CODE_MOBILE_EXITS", 100105);//手机号已经存在
+define("STATUS_CODE_MOBILE_EXITS", 100105);//手机号已经被注册
 define("STATUS_CODE_NONSTANDARD_PASSWORD", 100106);//密码不规范
+define("STATUS_CODE_PASSWORD_MUST_REQUIRE", 100107);//密码不能为空
+define("STATUS_CODE_MOBILE_MUST_REQUIRE", 100108);//手机不能为空
+define("STATUS_CODE_LOGIN_EXITS", 100109);//用户名已经存在
+define("STATUS_CODE_LOGIN_DISABLED", 100110);//用户被禁用
+define("STATUS_CODE_TOO_FREQUENT_OPERATION", 100111);//操作太频繁
+define("STATUS_CODE_TOO_MANY_ATTEMPTS", 100112);//尝试过多次数
+define("STATUS_CODE_SEND_MESSAGE_FAILED", 100113);//验证码发送失败
+define("STATUS_CODE_LOGIN_AUTH_FAILED", 100114);//登录验证错误
+define("STATUS_CODE_MOBILE_NO_RIGHT", 100115);//手机号格式不正确
+define("STATUS_CODE_USER_MODIFY_FAILED", 100116);//修改参数错误
+define("STATUS_CODE_USER_SAVE_FAILED", 100117);//用户操作失败
+#role
+define("STATUS_CODE_ADD_ROLE_FAILED", 100200);//添加角色失败
+define("STATUS_CODE_ROLE_NOT_EXISTS", 100201);//角色不存在
+define("STATUS_CODE_ROLE_NAME_EXISTS", 100202);//角色名称已经存在
+define("STATUS_CODE_ROLE_EDIT_DISABLE", 100203);//角色不能编辑
+
+
+#member
+define("STATUS_CODE_MEMBER_FAILED", 100400);//用户错误
+define("STATUS_CODE_TOKEN_INVALID", 100402);//TOKEN无效
+define("STATUS_CODE_TOKEN_EXPIRED", 100401);//TOKEN过期
+define("STATUS_CODE_TOKEN_WILL_EXPIRED", 100403);//TOKEN即将过期
 
 define("STATUS_CODE_USER_DELETE_FAILED", 100110);//用户删除存在
 define("STATUS_CODE_PERMISSION_DEND", 100112);//用户没有访问权限
-define("STATUS_CODE_ADD_ROLE_FAILED", 100113);//添加角色失败
-define("STATUS_CODE_ROLE_NAME_EXISTS", 100114);//角色名称已经存在
-define("STATUS_CODE_ROLE_NOT_EXISTS", 100115);//角色不存在
-define("STATUS_CODE_ROLE_EDIT_DISABLE", 100116);//角色不能编辑
-define("STATUS_CODE_ROLE_FAILED", 100200);//角色错误
 
-define("STATUS_CODE_LOGIN_AUTH_FAILED", 100220);//登录验证错误
+define("STATUS_CODE_ROLE_FAILED", 100200);//角色错误
 
 
 
 defined("STATUS_CODE_PASSWD_TYPE_ERROR") or define("STATUS_CODE_PASSWD_TYPE_ERROR", 100105);//用户密码格式不正确
 defined("STATUS_CODE_ROLE_REMOVE_FAILED") or define("STATUS_CODE_ROLE_REMOVE_FAILED", 100106);//角色删除失败
-defined("STATUS_CODE_ROLE_NOT_EXSIT") or define("STATUS_CODE_ROLE_NOT_EXSIT", 100107);//角色不存在
 defined("STATUS_CODE_SESSION_TIMEOUT") or define("STATUS_CODE_SESSION_TIMEOUT", 100109);//session失效
 //202:用户类
 define("LOGIN_EXITS", 20201);//用户名已经存在

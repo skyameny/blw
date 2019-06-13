@@ -8,6 +8,7 @@
 
 namespace core\logic;
 
+use authority\service\IdentifyService;
 use core\utils\ExLog;
 
 class Logic
@@ -15,8 +16,8 @@ class Logic
     protected static $instances = [];
 
     public static function singleton() {
-        $returnValue = null;
 
+        $returnValue = null;
         $serviceName = get_called_class();
         if (!isset(self::$instances[$serviceName])) {
             self::$instances[$serviceName] = new $serviceName();
